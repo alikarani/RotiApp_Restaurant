@@ -1,0 +1,75 @@
+import React from "react";
+import { View, Text, Button } from "react-native";
+import { Drawer } from 'native-base';
+import { createStackNavigator, createAppContainer } from "react-navigation";
+import SignIn from './SignIn'
+import SignUp from './SignUp'
+import AddProduct from './AddProduct'
+import ViewProduct from './ViewProduct'
+import Orders from './Orders'
+import SideBar from './SideBar';
+class HomeScreen extends React.Component {
+  closeDrawer = () => {
+    this.drawer._root.close()
+  };
+  openDrawer = () => {
+    this.drawer._root.open()
+  };
+  render() {
+    return (
+      <Drawer
+        navigation={this.props.navigation}
+        ref={(ref) => { this.drawer = ref; }}
+        content={<SideBar navigator={this.navigator} navigation={this.props.navigation} onclose={this.closeDrawer} />}
+        panOpenMask={50}
+        onClose={() => this.closeDrawer()} >
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Text style={{fontSize:27,fontWeight:"bold"}} onPress={this.openDrawer}>Open Drawer</Text>
+        <Text style={{fontSize:27,fontWeight:"bold" }} onPress={() => this.props.navigation.navigate('AddProduct')}>Add Product</Text>
+        <Text style={{fontSize:27,fontWeight:"bold"}} onPress={() => this.props.navigation.navigate('ViewProduct')}>View Product</Text>
+        <Text style={{fontSize:27,fontWeight:"bold"}} onPress={() => this.props.navigation.navigate('Orders')}>View Orders</Text>      
+      </View>
+      </Drawer>
+    );
+  }
+}
+const AppNavigator = createStackNavigator({
+  SignIn: {
+    screen: SignIn,
+    navigationOptions: {
+      header: null,
+    }
+  },
+  SignUp: {
+    screen: SignUp,
+    navigationOptions: {
+      header: null,
+    }
+  },
+  Home: {
+    screen: HomeScreen,
+    navigationOptions: {
+      header: null,
+    }
+  },
+  AddProduct: {
+    screen: AddProduct,
+    navigationOptions: {
+      header: null,
+    }
+  },
+  ViewProduct: {
+    screen: ViewProduct,
+    navigationOptions: {
+      header: null,
+    }
+  },
+  Orders: {
+    screen: Orders,
+    navigationOptions: {
+      header: null,
+    }
+  }
+});
+
+export default createAppContainer(AppNavigator);
