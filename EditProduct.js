@@ -34,55 +34,40 @@ export default class AddProduct extends Component {
         super(props);
         this.state = {
             avatarSource: "https://firebasestorage.googleapis.com/v0/b/sugarandspice-34c66.appspot.com/o/posts%2Fbiryani.jpg?alt=media&token=1683cab5-2fbf-4d06-b155-4ff570ab7b77",
-            Itemname: "",
-            description: "",
-            basequantity: "",
-            image: "Right now!",
-            cost: "",
-            id: "",
-            add: true,
-            restaurantName: this.props.navigation.state.params.resName
+            Itemname: this.props.navigation.state.params.itmEd,
+            Restaurantname: this.props.navigation.state.params.resEd,
+            description: this.props.navigation.state.params.desEd,
+            basequantity: this.props.navigation.state.params.basEd,
+            image: this.props.navigation.state.params.imgEd,
+            cost: this.props.navigation.state.params.cosEd,
+            id: this.props.navigation.state.params.idEd,
+            // add: this.props.navigation.state.params.update
         }
-        this.Upload = this.Upload.bind(this);
+        // this.Upload = this.Upload.bind(this);
         this.Update = this.Update.bind(this);
     }
-    Upload() {
+    Update() {
         if (this.state.Itemname.length > 2) {
             if (this.state.description.length > 15) {
                 if (this.state.basequantity > 10) {
                     if (this.state.cost > 20) {
                         let payload = {
                             "Itemname": `${this.state.Itemname}`,
-                            "Restaurantname": this.state.restaurantName,
+                            "Restaurantname": `${this.props.navigation.state.params.resName}`,
                             "description": `${this.state.description}`,
                             "basequantity": `${this.state.basequantity}`,
                             "image": `${this.state.image}`,
                             "cost": `${this.state.cost}`
                         }
-                        // {
-                        //     "Itemname": "Tikka",
-                        // "Restaurantname": "Mehak",
-                        //     "description": "Double",
-                        //         "basequantity": "14",
-                        //             "image": "Right now!",
-                        //                 "cost": "150",
-                        // },
-                        fetch('https://rotiappp.herokuapp.com/api/menu', {
-                            method: "POST",
+                        fetch(`https://rotiappp.herokuapp.com/api/menu/${this.state.id}`, {
+                            method: "PUT",
                             headers: {
                                 "Content-Type": "application/json",
                             },
                             body: JSON.stringify(payload)
                         }).then(function (response) {
                             return response.json();
-                        }).then(data => this.setState({
-                            Itemname: "",
-                            Restaurantname: "",
-                            description: "",
-                            basequantity: "",
-                            image: "",
-                            cost: ""
-                        })
+                        }).then(data =>alert("Updated")
                         ).catch(error => alert(error));
                     }
                     else {
@@ -104,46 +89,19 @@ export default class AddProduct extends Component {
             alert("Enter a valid Item Name");
         }
     }
-    Update() {
-        let payload = {
-            "Itemname": `${this.state.Itemname}`,
-            "Restaurantname": `${this.props.navigation.state.params.resName}`,
-            "description": `${this.state.description}`,
-            "basequantity": `${this.state.basequantity}`,
-            "image": `${this.state.image}`,
-            "cost": `${this.state.cost}`
-        }
-        fetch(`https://rotiappp.herokuapp.com/api/menu/${this.state.id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(payload)
-        }).then(function (response) {
-            return response.json();
-        }).then(data => this.setState({
-            Itemname: "",
-            Restaurantname: "",
-            description: "",
-            basequantity: "",
-            image: "",
-            cost: ""
-        })
-        ).catch(error => alert(error));
-    }
     closeDrawer = () => {
         this.drawer._root.close()
     };
     openDrawer = () => {
-        //   alert("clicked");
         this.drawer._root.open()
     };
     render() {
+        console.log(this.state.cost," yes");
         return (
             <Drawer
                 navigation={this.props.navigation}
                 ref={(ref) => { this.drawer = ref; }}
-                content={<SideBar navigator={this.navigator} resName={this.props.navigation.state.params.resName} navigation={this.props.navigation} onclose={this.closeDrawer} />}
+                content={<SideBar navigator={this.navigator} resName={this.props.navigation.state.params.resEd} navigation={this.props.navigation} onclose={this.closeDrawer} />}
                 panOpenMask={50}
                 onClose={() => this.closeDrawer()} >
                 < View style={styles.container} >
@@ -157,7 +115,7 @@ export default class AddProduct extends Component {
                             placeholderTextColor="#ffffff"
                             autoCapitalize='none'
                         />
-                        <Text style={{ fontSize: 18, backgroundColor: "rgba(100,200,150,0.5)" }}>{this.props.navigation.state.params.resName}</Text>
+                        <Text style={{ fontSize: 18, backgroundColor: "rgba(100,200,150,0.5)" }}>{this.props.navigation.state.params.resEd}</Text>
                     </View>
                     <View style={{ marginTop: 2, display: 'flex', flexDirection: 'row', width: width / 1.1, height: width / 7, alignSelf: "center" }}>
                         <TextInput
@@ -195,11 +153,7 @@ export default class AddProduct extends Component {
                             autoCapitalize='none'
                         />
                     </View>
-                    {this.state.add ?
-                        <Button onPress={() => this.Upload()} style={{ backgroundColor: "rgb(180,180,180)", height: width / 7, width: width / 4, borderRadius: 100, alignSelf: "center", paddingLeft: "5%" }}><Text style={{ color: "#ffffff", fontWeight: "bold" }}>Add</Text></Button>
-                        :
-                        <Button onPress={() => this.Update()} style={{ backgroundColor: "rgb(180,180,180)", height: width / 7, width: width / 4, borderRadius: 100, alignSelf: "center", paddingLeft: "5%" }}><Text style={{ color: "#ffffff", fontWeight: "bold" }}>Update</Text></Button>
-                    }
+                    <Button onPress={() => this.Update()} style={{ backgroundColor: "rgb(180,180,180)", height: width / 7, width: width / 4, borderRadius: 100, alignSelf: "center", paddingLeft: "5%" }}><Text style={{ color: "#ffffff", fontWeight: "bold" }}>Update</Text></Button>
                 </View >
             </Drawer>
         );

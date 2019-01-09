@@ -17,9 +17,9 @@ const { height, width, fontScale, } = Dimensions.get('window');
 
 // var options = {
 //     title: 'Select Image',
-    // customButtons: [
-    //     { name: 'fb', title: 'Choose Photo from Facebook' },
-    // ],
+// customButtons: [
+//     { name: 'fb', title: 'Choose Photo from Facebook' },
+// ],
 //     storageOptions: {
 //         skipBackup: true,
 //         path: 'images'
@@ -39,10 +39,14 @@ class SideBar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: "Ali Asghar Karani",
+            username: this.props.resName,
             accountType: "user",
-            avatarSource: "https://firebasestorage.googleapis.com/v0/b/sugarandspice-34c66.appspot.com/o/defaultuser.png?alt=media&token=666d2446-cc82-4023-870c-994a2a8fcc6d"
+            datacmgIn: [],
+            datacmgOrd: [],
+            avatarSource: "https://firebasestorage.googleapis.com/v0/b/sugarandspice-34c66.appspot.com/o/logo.jpeg?alt=media&token=a312edfb-6a2e-48a2-a00d-b0da7e6c08dd"
         }
+        this.Get = this.Get.bind(this);
+        this.GetOrd = this.GetOrd.bind(this);
     }
     // componentWillMount() {
     //     // alert("hbdbg");
@@ -125,7 +129,42 @@ class SideBar extends React.Component {
     //         // this.uploadonFirebase(this.state.avatarSource)
     //     });
     // }
-
+    UNSAFE_componentWillMount() {
+        this.Get();
+        this.GetOrd();
+    }
+    GetOrd() {
+        // fetch('http://localhost:5000/api/ninjas', {
+        fetch('https://rotiappp.herokuapp.com/api/orders', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        }).then(function (response) {
+            return response.json();
+        }).then(data => {
+            this.setState({
+                datacmgOrd: data
+            })
+        }
+        ).catch(error => alert(error));
+    }
+    Get() {
+        // fetch('http://localhost:5000/api/ninjas', {
+        fetch('https://rotiappp.herokuapp.com/api/menu', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        }).then(function (response) {
+            return response.json();
+        }).then(data => {
+            this.setState({
+                datacmgIn: data
+            })
+        }
+        ).catch(error => alert(error));
+    }
     render() {
         return (
             <View style={styles.container}>
@@ -137,39 +176,33 @@ class SideBar extends React.Component {
                             style={{ height: width / 5, width: width / 5 }}
                         />
                     </TouchableOpacity>
-                    <Text style={{ color: "blue", alignSelf: "center", fontSize: fontScale * 25, marginLeft: "5%" }}>{this.state.username}</Text>
+                    <Text style={{ color: "blue", alignSelf: "center", fontSize: fontScale * 23, marginLeft: "5%" }}>{this.props.resName}</Text>
                 </View>
 
                 <TouchableOpacity activeOpacity={1} style={{ height: width / 4, borderBottomColor: "blue", borderBottomWidth: 1, backgroundColor: "rgb(180,180,180)", flexDirection: "row" }} onPress={() => { this.props.onclose() }} >
                     <View style={{ alignSelf: "center", marginLeft: "5%" }}>
                         <Icon name="ios-home" />
                     </View>
-                    <Text style={{ color: "red", alignSelf: "center", fontSize: fontScale * 25, marginLeft: "5%" }}>Home</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity activeOpacity={1} style={{ height: width / 4, borderBottomColor: "blue", borderBottomColor: "blue", borderBottomWidth: 1, backgroundColor: "rgb(180,180,180)", flexDirection: "row" }} onPress={() => this.props.navigation.navigate('AddProduct')} >
-                    <View style={{ alignSelf: "center", marginLeft: "5%" }}>
-                        <Icon name="ios-basket" />
-                    </View>
                     <Text style={{ color: "red", alignSelf: "center", fontSize: fontScale * 25, marginLeft: "5%" }}>Add Product</Text>
                 </TouchableOpacity>
+                <TouchableOpacity activeOpacity={1} style={{ height: width / 4, borderBottomColor: "blue", borderBottomWidth: 1, backgroundColor: "rgb(180,180,180)", flexDirection: "row" }} onPress={() => this.props.navigation.navigate('ViewProduct', { ordered: this.props.resName, Prod: this.state.datacmgIn })}>
+                    <View style={{ alignSelf: "center", marginLeft: "5%" }}>
+                        <Icon name="ios-basket" />
+                    </View>
+                    <Text onPress={() => this.props.navigation.navigate('ViewProduct', { ordered: this.props.resName, Prod: this.state.datacmgIn })} style={{ color: "red", alignSelf: "center", fontSize: fontScale * 25, marginLeft: "5%" }}>View Product</Text>
+                </TouchableOpacity>
 
-                {this.state.accountType == "admin" ? <TouchableOpacity activeOpacity={1} style={{ height: width / 4, backgroundColor: "rgb(180,180,180)", flexDirection: "row" }} onPress={() => this.props.navigation.navigate('ViewProduct')} >
+                <TouchableOpacity activeOpacity={1} style={{ height: width / 4, borderBottomColor: "blue", borderBottomWidth: 1, backgroundColor: "rgb(180,180,180)", flexDirection: "row" }} onPress={() => this.props.navigation.navigate('Orders', { ordered1: this.props.resName, Prod1: this.state.datacmgOrd })} >
                     <View style={{ alignSelf: "center", marginLeft: "5%" }}>
                         <Icon name="ios-basket" />
                     </View>
-                    <Text style={{ color: "red", alignSelf: "center", fontSize: fontScale * 25, marginLeft: "5%" }}>View Product</Text>
-                </TouchableOpacity> : null}
-                {/* <TouchableOpacity activeOpacity={1} style={{ height: width / 4,backgroundColor: "rgb(180,180,180)", flexDirection: "row" }} onPress={() => firebase.auth().signOut().then(s => { this.props.navigation.navigate("Signup") })} >
-                    <Text style={{ backgroundColor: "green", color: "white", textAlign: "center", fontSize: fontScale * 30, fontWeight: "bold" }} onPress={() => firebase.auth().signOut().then(s => {
-                        this.props.navigation.navigate("Signup")
-                    })}>Logout</Text>
-                </TouchableOpacity> */}
-                <TouchableOpacity activeOpacity={1} style={{ height: width / 4, borderBottomColor: "blue", borderBottomColor: "blue", borderBottomWidth: 1, backgroundColor: "rgb(180,180,180)", flexDirection: "row" }}>
+                    <Text onPress={() => this.props.navigation.navigate('Orders', { ordered1: this.props.resName, Prod1: this.state.datacmgOrd })} style={{ color: "red", alignSelf: "center", fontSize: fontScale * 25, marginLeft: "5%" }}>View Orders</Text>
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={1} onPress={() => this.props.navigation.navigate('SignIn')} style={{ height: width / 4, borderBottomColor: "blue", borderBottomColor: "blue", borderBottomWidth: 1, backgroundColor: "rgb(180,180,180)", flexDirection: "row" }}>
                     <View style={{ alignSelf: "center", marginLeft: "5%" }}>
                         <Icon name="ios-basket" />
                     </View>
-                    <Text style={{ color:'blue', alignSelf: "center", fontSize: fontScale * 25, marginLeft: "5%" }} >Logout</Text>
+                    <Text style={{ color: 'blue', alignSelf: "center", fontSize: fontScale * 25, marginLeft: "5%" }} >Logout</Text>
                 </TouchableOpacity>
             </View>
         );
@@ -179,8 +212,6 @@ class SideBar extends React.Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: 'rgb(180,180,180)',
-        width: width / 1.3,
-        height,
     },
     textContent: {
         fontSize: 20,

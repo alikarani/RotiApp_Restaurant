@@ -25,15 +25,16 @@ const instructions = Platform.select({
         'Double tap R on your keyboard to reload,\n' +
         'Shake or press menu button for dev menu',
 });
-// type Props = {};
 export default class ViewProduct extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            datacmg: []
+            checking: this.props.navigation.state.params.ordered,
+            datacmg: this.props.navigation.state.params.Prod,
+            filtered:[]
         }
-        // this.Upload = this.Upload.bind(this);
-        this.Get = this.Get.bind(this);
+        // this.Get = this.Get.bind(this);
+        this.filter = this.filter.bind(this);
     }
     UNSAFE_componentWillMount() {
         this.Get();
@@ -48,11 +49,20 @@ export default class ViewProduct extends Component {
         }).then(function (response) {
             return response.json();
         }).then(data => {
-            this.setState({
-                datacmg: data
-            })
+            this.filter(data);
         }
         ).catch(error => alert(error));
+    }
+    filter(datacomming) {
+        let data = [];
+        for (let i = 0; i < datacomming.length; i++) {
+            if (datacomming[i].Restaurantname == this.state.checking) {
+                data.push(datacomming[i])
+            }
+        }
+        this.setState({
+            filtered: data
+        })
     }
     Delete(id) {
         fetch(`https://rotiappp.herokuapp.com/api/menu/${id}`, {
@@ -66,10 +76,11 @@ export default class ViewProduct extends Component {
         ).catch(error => alert(error));
     }
     render() {
+        console.log("cv", this.props);
         return (
             <Container>
                 <ScrollView>
-                    {this.state.datacmg.map((data, i) => {
+                    {this.state.filtered.map((data, i) => {
                         return (
                             <Content>
                                 <Card style={{ flex: 0 }}>
@@ -77,8 +88,8 @@ export default class ViewProduct extends Component {
                                         <Left>
                                             <Thumbnail source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/sugarandspice-34c66.appspot.com/o/logo.jpeg?alt=media&token=a312edfb-6a2e-48a2-a00d-b0da7e6c08dd' }} />
                                             <Body>
-                                                <Text>{data.Itemname}</Text>
-                                                <Text note>{data.Restaurantname}</Text>
+                                                <Text style={{ color: "blue", fontSize: 23 }}>{data.Itemname}</Text>
+                                                <Text note style={{ color: "red", fontSize: 18 }}>{data.Restaurantname}</Text>
                                             </Body>
                                         </Left>
                                     </CardItem>
@@ -86,28 +97,33 @@ export default class ViewProduct extends Component {
                                         <Body>
                                             <Image source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/sugarandspice-34c66.appspot.com/o/posts%2Fbiryani.jpg?alt=media&token=1683cab5-2fbf-4d06-b155-4ff570ab7b77' }} style={{ height: 200, width: 200, flex: 1 }} />
                                             <Text>
-                                                {data.description}-{data.basequantity}
+                                                {data.description}
+                                            </Text>
+                                            <Text>
+                                                {data.basequantity}
                                             </Text>
                                         </Body>
                                     </CardItem>
                                     <CardItem>
                                         <Left>
                                             <Button transparent textStyle={{ color: '#87838B' }}>
-                                                <Icon name="logo-github" />
+                                                {/* <Icon name="logo-github" /> */}
+                                                <Text>Cost</Text>
                                                 <Text>{data.cost}</Text>
                                             </Button>
-                                            <Button onPress={() => this.props.navigation.navigate('AddProduct', {
-                                                Itemname: data.Itemname,
-                                                Restaurantname: data.Restaurantname,
-                                                description: data.description,
-                                                basequantity: data.basequantity,
-                                                image: data.image,
-                                                cost: data.cost,
+                                            <Button onPress={() => this.props.navigation.navigate('EditProduct', {
+                                                itmEd: data.Itemname,
+                                                resEd: data.Restaurantname,
+                                                desEd: data.description,
+                                                basEd: data.basequantity,
+                                                imgEd: data.image,
+                                                cosEd: data.cost,
                                                 update: true,
+                                                idEd: data._id
                                             })}>
                                                 <Text>Edit</Text>
                                             </Button>
-                                            <Button onPress={() =>this.Delete(data._id)}>
+                                            <Button onPress={() => this.Delete(data._id)}>
                                                 <Text>Delete</Text>
                                             </Button>
                                         </Left>

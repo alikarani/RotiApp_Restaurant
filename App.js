@@ -7,8 +7,15 @@ import SignUp from './SignUp'
 import AddProduct from './AddProduct'
 import ViewProduct from './ViewProduct'
 import Orders from './Orders'
+import EditProduct from './EditProduct'
 import SideBar from './SideBar';
 class HomeScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      restaurantName: this.props.navigation.state.params.resName
+    }
+  }
   closeDrawer = () => {
     this.drawer._root.close()
   };
@@ -23,12 +30,13 @@ class HomeScreen extends React.Component {
         content={<SideBar navigator={this.navigator} navigation={this.props.navigation} onclose={this.closeDrawer} />}
         panOpenMask={50}
         onClose={() => this.closeDrawer()} >
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text style={{fontSize:27,fontWeight:"bold"}} onPress={this.openDrawer}>Open Drawer</Text>
-        <Text style={{fontSize:27,fontWeight:"bold" }} onPress={() => this.props.navigation.navigate('AddProduct')}>Add Product</Text>
-        <Text style={{fontSize:27,fontWeight:"bold"}} onPress={() => this.props.navigation.navigate('ViewProduct')}>View Product</Text>
-        <Text style={{fontSize:27,fontWeight:"bold"}} onPress={() => this.props.navigation.navigate('Orders')}>View Orders</Text>      
-      </View>
+        <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+          <Text>{this.state.restaurantName}</Text>
+          <Text style={{ fontSize: 27, fontWeight: "bold" }} onPress={this.openDrawer}>Open Drawer</Text>
+          <Text style={{ fontSize: 27, fontWeight: "bold" }} onPress={() => this.props.navigation.navigate('AddProduct')}>Add Product</Text>
+          <Text style={{ fontSize: 27, fontWeight: "bold" }} onPress={() => this.props.navigation.navigate('ViewProduct')}>View Product</Text>
+          <Text style={{ fontSize: 27, fontWeight: "bold" }} onPress={() => this.props.navigation.navigate('Orders')}>View Orders</Text>
+        </View>
       </Drawer>
     );
   }
@@ -66,6 +74,12 @@ const AppNavigator = createStackNavigator({
   },
   Orders: {
     screen: Orders,
+    navigationOptions: {
+      header: null,
+    }
+  },
+  EditProduct: {
+    screen: EditProduct,
     navigationOptions: {
       header: null,
     }

@@ -28,7 +28,6 @@ const instructions = Platform.select({
         'Shake or press menu button for dev menu',
 });
 
-// type Props = {};
 export default class SignUp extends Component {
     constructor(props) {
         super(props);
@@ -55,22 +54,34 @@ export default class SignUp extends Component {
             this.setState({
                 datacmg: data
             })
-            //   alert('Success');
         }
         ).catch(error => alert(error));
     }
     Login() {
-        let login = false;
         for (let i = 0; i < this.state.datacmg.length; i++) {
-            if (this.state.datacmg[i].email == this.state.email && this.state.datacmg[i].Password == this.state.password && this.state.datacmg[i].ApprovedAccount == true) {
-                //    alert("found");
-                login = true;
-                this.props.navigation.navigate('Home')
-                break;
+            if (this.state.datacmg[i].email == this.state.email) {
+                if (this.state.datacmg[i].Password == this.state.password) {
+                    if (this.state.datacmg[i].ApprovedAccount == true) {
+                        this.props.navigation.navigate('AddProduct',{resName:this.state.datacmg[i].restaurantname})
+                        this.setState({
+                            email:"",
+                            password:""
+                        })
+                        break;
+                    }
+                    else{
+                        alert("Account not Authorized!");
+                        break;
+                    }
+                }
+                else {
+                    alert("Password not match");
+                    break;
+                }
             }
-        }
-        if(!login){
-            alert("Error Occured!");
+            else {
+                alert("Email not match");
+            }
         }
     }
     render() {
