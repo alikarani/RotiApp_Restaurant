@@ -11,27 +11,27 @@ import {
 } from 'react-native';
 import { Container, Header, Content, Footer, Drawer, FooterTab, Button, Icon, List, ListItem } from 'native-base';
 // import * as firebase from 'firebase';
-// import ImagePicker from "react-native-image-picker"
-// import RNFetchBlob from 'react-native-fetch-blob'
+import ImagePicker from "react-native-image-picker"
+import RNFetchBlob from 'react-native-fetch-blob'
 const { height, width, fontScale, } = Dimensions.get('window');
 
-// var options = {
-//     title: 'Select Image',
-    // customButtons: [
-    //     { name: 'fb', title: 'Choose Photo from Facebook' },
-    // ],
-//     storageOptions: {
-//         skipBackup: true,
-//         path: 'images'
-//     }
-// };
+var options = {
+    title: 'Select Image',
+    customButtons: [
+        { name: 'fb', title: 'Choose Photo from Facebook' },
+    ],
+    storageOptions: {
+        skipBackup: true,
+        path: 'images'
+    }
+};
 
 
 
-// const Blob = RNFetchBlob.polyfill.Blob
-// const fs = RNFetchBlob.fs
-// window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
-// window.Blob = Blob
+const Blob = RNFetchBlob.polyfill.Blob
+const fs = RNFetchBlob.fs
+window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
+window.Blob = Blob
 
 
 
@@ -55,82 +55,82 @@ class SideBar extends React.Component {
     //         })
     // }
 
-    // uploadImage = (uri, imageName, mime = 'image/jpg') => {
-    //     console.log("1");
-    //     return new Promise((resolve, reject) => {
-    //         console.log("2");
-    //         const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
-    //         let uploadBlob = null
-    //         const imageRef = firebase.storage().ref('posts').child(imageName)
-    //         fs.readFile(uploadUri, 'base64')
-    //             .then((data) => {
-    //                 console.log("then 1")
-    //                 return Blob.build(data, { type: `${mime};BASE64` })
-    //             })
-    //             .then((blob) => {
-    //                 console.log("then 2")
-    //                 uploadBlob = blob
-    //                 return imageRef.put(blob, { contentType: mime })
-    //             })
-    //             .then(() => {
-    //                 console.log("then 3")
-    //                 uploadBlob.close()
-    //                 return imageRef.getDownloadURL()
-    //             })
-    //             .then((url) => {
-    //                 console.log("then 4")
-    //                 // this.uploadonFirebase(url)      
-    //                 this.setState(
-    //                     {
-    //                         avatarSource: url
-    //                     }
-    //                 )
-    //                 this.uploadonFirebase(this.state.avatarSource)
-    //                 resolve(url)
-    //             })
-    //             .catch((error) => {
-    //                 console.log("cath")
-    //                 reject(error)
-    //             })
-    //     })
-    // }  //        firebase.database().ref(`user/${firebase.auth().currentUser.uid}`).set(user)    
-    // uploadonFirebase = (imagelink) => {
-    //     firebase.database().ref(`user/${firebase.auth().currentUser.uid}`).update({ imagelink })
-    // }
-    // start = () => {
-    //     ImagePicker.showImagePicker(options, (response) => {
-    //         console.log('Response = ', response);
+    uploadImage = (uri, imageName, mime = 'image/jpg') => {
+        console.log("1");
+        return new Promise((resolve, reject) => {
+            console.log("2");
+            const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
+            let uploadBlob = null
+            const imageRef = firebase.storage().ref('posts').child(imageName)
+            fs.readFile(uploadUri, 'base64')
+                .then((data) => {
+                    console.log("then 1")
+                    return Blob.build(data, { type: `${mime};BASE64` })
+                })
+                .then((blob) => {
+                    console.log("then 2")
+                    uploadBlob = blob
+                    return imageRef.put(blob, { contentType: mime })
+                })
+                .then(() => {
+                    console.log("then 3")
+                    uploadBlob.close()
+                    return imageRef.getDownloadURL()
+                })
+                .then((url) => {
+                    console.log("then 4")
+                    // this.uploadonFirebase(url)      
+                    this.setState(
+                        {
+                            avatarSource: url
+                        }
+                    )
+                    this.uploadonFirebase(this.state.avatarSource)
+                    resolve(url)
+                })
+                .catch((error) => {
+                    console.log("cath")
+                    reject(error)
+                })
+        })
+    }  //        firebase.database().ref(`user/${firebase.auth().currentUser.uid}`).set(user)    
+    uploadonFirebase = (imagelink) => {
+       console.log(imagelink," Image Link")
+    }
+    start = () => {
+        ImagePicker.showImagePicker(options, (response) => {
+            console.log('Response = ', response);
 
-    //         if (response.didCancel) {
-    //             console.log('User cancelled image picker');
-    //         }
-    //         else if (response.error) {
-    //             console.log('ImagePicker Error: ', response.error);
-    //         }
-    //         else if (response.customButton) {
-    //             console.log('User tapped custom button: ', response.customButton);
-    //         }
-    //         else {
-    //             let source = { uri: response.uri };
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            }
+            else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            }
+            else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+            }
+            else {
+                let source = { uri: response.uri };
 
-    //             // You can also display the image using data:
-    //             // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+                // You can also display the image using data:
+                // let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
-    //             this.setState({
-    //                 // avatarSource: response.uri
-    //             });
-    //         }
-    //         // console.log(this.state.avatarSource)
-    //         this.uploadImage(response.uri, firebase.auth().currentUser.uid);
-    //         // this.uploadonFirebase(this.state.avatarSource)
-    //     });
-    // }
+                // this.setState({
+                //     avatarSource: response.uri
+                // });
+            }
+            // console.log(this.state.avatarSource)
+            this.uploadImage(response.uri);
+            // this.uploadonFirebase(this.state.avatarSource)
+        });
+    }
 
     render() {
         return (
             <View style={styles.container}>
                 <View style={{ height: width / 4, backgroundColor: "#9f80d3", flexDirection: "row" }}>
-                    <TouchableOpacity activeOpacity={1} style={{ height: width / 5, alignSelf: "center", marginLeft: "5%", borderRadius: 100, overflow: "hidden", backgroundColor: "rgb(180,180,180)" }}>
+                    <TouchableOpacity activeOpacity={1} onPress={() => this.start()} style={{ height: width / 5, alignSelf: "center", marginLeft: "5%", borderRadius: 100, overflow: "hidden", backgroundColor: "rgb(180,180,180)" }}>
                         <Image
                             onPress={() => this.start()}
                             source={{ uri: this.state.avatarSource }}
