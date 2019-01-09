@@ -13,6 +13,7 @@ import { Container, Header, Content, Footer, Drawer, FooterTab, Button, Icon, Li
 // import * as firebase from 'firebase';
 import ImagePicker from "react-native-image-picker"
 import RNFetchBlob from 'react-native-fetch-blob'
+import firebase from 'react-native-firebase'
 const { height, width, fontScale, } = Dimensions.get('window');
 
 var options = {
@@ -26,14 +27,10 @@ var options = {
     }
 };
 
-
-
 const Blob = RNFetchBlob.polyfill.Blob
 const fs = RNFetchBlob.fs
 window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
 window.Blob = Blob
-
-
 
 class SideBar extends React.Component {
     constructor(props) {
@@ -43,18 +40,17 @@ class SideBar extends React.Component {
             accountType: "user",
             avatarSource: "https://firebasestorage.googleapis.com/v0/b/sugarandspice-34c66.appspot.com/o/defaultuser.png?alt=media&token=666d2446-cc82-4023-870c-994a2a8fcc6d"
         }
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyD8xOKoyu0AGHHStP3RKBh33oM-YfRtfu0",
+            authDomain: "rotiapprestaurant.firebaseapp.com",
+            databaseURL: "https://rotiapprestaurant.firebaseio.com",
+            projectId: "rotiapprestaurant",
+            storageBucket: "rotiapprestaurant.appspot.com",
+            messagingSenderId: "932549255217"
+        };
+        firebase.initializeApp(config);
     }
-    // componentWillMount() {
-    //     // alert("hbdbg");
-    //     firebase.database().ref("user/" + firebase.auth().currentUser.uid).once("value")
-    //         .then(success => {
-    //             console.log(success.val())
-    //             success.val().imagelink ? this.setState({ username: success.val().name, avatarSource: success.val().imagelink, accountType: success.val().accountType }) : this.setState({ username: success.val().name, accountType: success.val().accountType })
-    //         }).catch(err => {
-    //             console.log(err)
-    //         })
-    // }
-
     uploadImage = (uri, imageName, mime = 'image/jpg') => {
         console.log("1");
         return new Promise((resolve, reject) => {
@@ -66,11 +62,6 @@ class SideBar extends React.Component {
                 .then((data) => {
                     console.log("then 1")
                     return Blob.build(data, { type: `${mime};BASE64` })
-                })
-                .then((blob) => {
-                    console.log("then 2")
-                    uploadBlob = blob
-                    return imageRef.put(blob, { contentType: mime })
                 })
                 .then(() => {
                     console.log("then 3")
@@ -85,7 +76,6 @@ class SideBar extends React.Component {
                             avatarSource: url
                         }
                     )
-                    this.uploadonFirebase(this.state.avatarSource)
                     resolve(url)
                 })
                 .catch((error) => {
@@ -94,9 +84,9 @@ class SideBar extends React.Component {
                 })
         })
     }  //        firebase.database().ref(`user/${firebase.auth().currentUser.uid}`).set(user)    
-    uploadonFirebase = (imagelink) => {
-       console.log(imagelink," Image Link")
-    }
+    // uploadonFirebase=(imagelink)=>{
+    //     firebase.database().ref(`user/${firebase.auth().currentUser.uid}`).update({imagelink})
+    // }
     start = () => {
         ImagePicker.showImagePicker(options, (response) => {
             console.log('Response = ', response);
@@ -116,12 +106,12 @@ class SideBar extends React.Component {
                 // You can also display the image using data:
                 // let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
-                // this.setState({
-                //     avatarSource: response.uri
-                // });
+                this.setState({
+                    // avatarSource: response.uri
+                });
             }
-            // console.log(this.state.avatarSource)
-            this.uploadImage(response.uri);
+            console.log(this.state.avatarSource)
+            this.uploadImage(response.uri, "ALIKARANI");
             // this.uploadonFirebase(this.state.avatarSource)
         });
     }
@@ -169,7 +159,7 @@ class SideBar extends React.Component {
                     <View style={{ alignSelf: "center", marginLeft: "5%" }}>
                         <Icon name="ios-basket" />
                     </View>
-                    <Text style={{ color:'blue', alignSelf: "center", fontSize: fontScale * 25, marginLeft: "5%" }} >Logout</Text>
+                    <Text style={{ color: 'blue', alignSelf: "center", fontSize: fontScale * 25, marginLeft: "5%" }} >Logout</Text>
                 </TouchableOpacity>
             </View>
         );

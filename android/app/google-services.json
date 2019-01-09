@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "932549255217",
+    "firebase_url": "https://rotiapprestaurant.firebaseio.com",
+    "project_id": "rotiapprestaurant",
+    "storage_bucket": "rotiapprestaurant.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:932549255217:android:2c02429c6f9336ca",
+        "android_client_info": {
+          "package_name": "com.rotiapprestaurant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "932549255217-7jlrih0v4mpnqsgjbnkq2856sdtesvqb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASmUHvHen0fk8uKf7l-npwXovLUe65Id0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
