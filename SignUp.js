@@ -28,7 +28,7 @@ const instructions = Platform.select({
 });
 
 // type Props = {};
-export default class SignUp extends Component{
+export default class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -40,7 +40,7 @@ export default class SignUp extends Component{
       yourtitle: "",
       phoneno: "",
       email: "",
-      Password:"",
+      Password: "",
       noOflocations: "",
       typeOfCuisine: "",
       EstimatedWeeklyOrder: "",
@@ -70,49 +70,67 @@ export default class SignUp extends Component{
   // }
 
   Upload() {
-    let payload = {
-      "CurrentlyOfferDelivery": this.state.CurrentlyOfferDelivery,
-      "ApprovedAccount": this.state.approved,
-      "location": `${this.state.location}`,
-      "restaurantname": `${this.state.restaurantname}`,
-      "zipcode": `${this.state.zipcode}`,
-      "firstname": `${this.state.firstname}`,
-      "lastname": `${this.state.lastname}`,
-      "yourtitle": `${this.state.yourtitle}`,
-      "phoneno": `${this.state.phoneno}`,
-      "email": `${this.state.email}`,
-      "Password": `${this.state.Password}`,
-      "noOflocations": `${this.state.noOflocations}`,
-      "typeOfCuisine": `${this.state.typeOfCuisine}`,
-      "EstimatedWeeklyOrder": `${this.state.EstimatedWeeklyOrder}`
+    if (this.state.location.length > 4) {
+      if (this.state.restaurantname.length > 3) {
+        if (this.state.firstname && this.state.lastname && this.state.zipcode && this.state.yourtitle && this.state.phoneno && this.state.email && this.state.Password && this.state.noOflocations && this.state.typeOfCuisine && this.state.noOflocations) {
+          let payload = {
+            "CurrentlyOfferDelivery": this.state.CurrentlyOfferDelivery,
+            "ApprovedAccount": this.state.approved,
+            "location": `${this.state.location}`,
+            "restaurantname": `${this.state.restaurantname}`,
+            "zipcode": `${this.state.zipcode}`,
+            "firstname": `${this.state.firstname}`,
+            "lastname": `${this.state.lastname}`,
+            "yourtitle": `${this.state.yourtitle}`,
+            "phoneno": `${this.state.phoneno}`,
+            "email": `${this.state.email}`,
+            "Password": `${this.state.Password}`,
+            "noOflocations": `${this.state.noOflocations}`,
+            "typeOfCuisine": `${this.state.typeOfCuisine}`,
+            "EstimatedWeeklyOrder": `${this.state.EstimatedWeeklyOrder}`
+          }
+          fetch('https://rotiappp.herokuapp.com/api/restaurants', {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload)
+          }).then(function (response) {
+            return response.json();
+          }).then(data => {
+            this.setState({
+              location: "",
+              restaurantname: "",
+              firstname: "",
+              lastname: "",
+              yourtitle: "",
+              phoneno: "",
+              email: "",
+              noOflocations: "",
+              typeOfCuisine: "",
+              EstimatedWeeklyOrder: "",
+              CurrentlyOfferDelivery: false,
+              zipcode: "",
+              approved: false,
+              Password: ""
+            })
+            alert("Wait for the Approval BY RotiApp");
+            this.props.navigation.navigate('SignIn')
+          }
+          ).catch(error => alert(error));
+        }
+        else{
+          alert("you have not completed the form");
+        }
+      }
+      else {
+        alert("Enter Valid Restrurant Name");
+      }
     }
-    fetch('https://rotiappp.herokuapp.com/api/restaurants', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload)
-    }).then(function (response) {
-      return response.json();
-    }).then(data =>{ this.setState({
-      location: "",
-      restaurantname: "",
-      firstname: "",
-      lastname: "",
-      yourtitle: "",
-      phoneno: "",
-      email: "",
-      noOflocations: "",
-      typeOfCuisine: "",
-      EstimatedWeeklyOrder: "",
-      CurrentlyOfferDelivery: false,
-      zipcode: "",
-      approved: false,
-      Password:""
-    })
-    this.props.navigation.navigate('Home')
-  }
-    ).catch(error => alert(error));
+    else {
+      alert("Enter Valid Location");
+    }
+
   }
   render() {
     return (
@@ -225,10 +243,18 @@ export default class SignUp extends Component{
             autoCapitalize='none'
           />
         </View>
+        <View style={{ marginTop: 2, display: 'flex', flexDirection: 'row', width: width / 1.1, height: width / 7, alignSelf: "center" }}>
+          <TextInput
+            style={{ fontWeight: "bold", height: width / 7, backgroundColor: "rgba(100,200,150,0.5)", width: width / 2.1, color: "#ffffff", fontSize: fontScale * 25, paddingRight: "2%", paddingLeft: "2%" }}
+            onChangeText={(Password) => this.setState({ Password })}
+            value={this.state.Password}
+            placeholder="Password"
+            placeholderTextColor="#ffffff"
+            autoCapitalize='none'
+          />
+        </View>
         <Button onPress={() => this.Upload()} style={{ backgroundColor: "rgb(180,180,180)", height: width / 7, width: width / 4, borderRadius: 100, alignSelf: "center", paddingLeft: "5%" }}><Text style={{ color: "#ffffff", fontWeight: "bold" }}>Upload</Text></Button>
-      {/*  this.Upload() 
-                onPress={() => this.props.navigation.navigate('Details')}
-      */}
+        <View style={{ flexDirection: "row", alignSelf: "center", marginTop: "5%" }}><Text style={{ color: "#ffffff", fontSize: fontScale * 22, fontWeight: "bold" }}>Dont Have an Account? </Text><Text onPress={() => this.props.navigation.navigate("SignIn")} style={{ textDecorationLine: 'underline', color: "#ffffff", fontSize: fontScale * 22 }}>Sign Up</Text></View>
       </View>
     );
   }

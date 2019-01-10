@@ -84,7 +84,7 @@ export default class Orders extends Component {
                                         <CardItem>
                                             <Left>
                                                 <Button transparent textStyle={{ color: '#87838B' }}>
-                                                    <Icon name="logo-github" />
+                                                    {/* <Icon name="logo-github" /> */}
                                                 </Button>
                                             </Left>
                                         </CardItem>
