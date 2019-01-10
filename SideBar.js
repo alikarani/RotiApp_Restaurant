@@ -48,93 +48,11 @@ class SideBar extends React.Component {
         this.Get = this.Get.bind(this);
         this.GetOrd = this.GetOrd.bind(this);
     }
-    // componentWillMount() {
-    //     // alert("hbdbg");
-    //     firebase.database().ref("user/" + firebase.auth().currentUser.uid).once("value")
-    //         .then(success => {
-    //             console.log(success.val())
-    //             success.val().imagelink ? this.setState({ username: success.val().name, avatarSource: success.val().imagelink, accountType: success.val().accountType }) : this.setState({ username: success.val().name, accountType: success.val().accountType })
-    //         }).catch(err => {
-    //             console.log(err)
-    //         })
-    // }
-
-    // uploadImage = (uri, imageName, mime = 'image/jpg') => {
-    //     console.log("1");
-    //     return new Promise((resolve, reject) => {
-    //         console.log("2");
-    //         const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
-    //         let uploadBlob = null
-    //         const imageRef = firebase.storage().ref('posts').child(imageName)
-    //         fs.readFile(uploadUri, 'base64')
-    //             .then((data) => {
-    //                 console.log("then 1")
-    //                 return Blob.build(data, { type: `${mime};BASE64` })
-    //             })
-    //             .then((blob) => {
-    //                 console.log("then 2")
-    //                 uploadBlob = blob
-    //                 return imageRef.put(blob, { contentType: mime })
-    //             })
-    //             .then(() => {
-    //                 console.log("then 3")
-    //                 uploadBlob.close()
-    //                 return imageRef.getDownloadURL()
-    //             })
-    //             .then((url) => {
-    //                 console.log("then 4")
-    //                 // this.uploadonFirebase(url)      
-    //                 this.setState(
-    //                     {
-    //                         avatarSource: url
-    //                     }
-    //                 )
-    //                 this.uploadonFirebase(this.state.avatarSource)
-    //                 resolve(url)
-    //             })
-    //             .catch((error) => {
-    //                 console.log("cath")
-    //                 reject(error)
-    //             })
-    //     })
-    // }  //        firebase.database().ref(`user/${firebase.auth().currentUser.uid}`).set(user)    
-    // uploadonFirebase = (imagelink) => {
-    //     firebase.database().ref(`user/${firebase.auth().currentUser.uid}`).update({ imagelink })
-    // }
-    // start = () => {
-    //     ImagePicker.showImagePicker(options, (response) => {
-    //         console.log('Response = ', response);
-
-    //         if (response.didCancel) {
-    //             console.log('User cancelled image picker');
-    //         }
-    //         else if (response.error) {
-    //             console.log('ImagePicker Error: ', response.error);
-    //         }
-    //         else if (response.customButton) {
-    //             console.log('User tapped custom button: ', response.customButton);
-    //         }
-    //         else {
-    //             let source = { uri: response.uri };
-
-    //             // You can also display the image using data:
-    //             // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-
-    //             this.setState({
-    //                 // avatarSource: response.uri
-    //             });
-    //         }
-    //         // console.log(this.state.avatarSource)
-    //         this.uploadImage(response.uri, firebase.auth().currentUser.uid);
-    //         // this.uploadonFirebase(this.state.avatarSource)
-    //     });
-    // }
     UNSAFE_componentWillMount() {
         this.Get();
         this.GetOrd();
     }
     GetOrd() {
-        // fetch('http://localhost:5000/api/ninjas', {
         fetch('https://rotiappp.herokuapp.com/api/orders', {
             method: "GET",
             headers: {
@@ -150,7 +68,6 @@ class SideBar extends React.Component {
         ).catch(error => alert(error));
     }
     Get() {
-        // fetch('http://localhost:5000/api/ninjas', {
         fetch('https://rotiappp.herokuapp.com/api/menu', {
             method: "GET",
             headers: {
@@ -168,8 +85,8 @@ class SideBar extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <View style={{ height: width / 4, backgroundColor: "#9f80d3", flexDirection: "row" }}>
-                    <TouchableOpacity activeOpacity={1} style={{ height: width / 5, alignSelf: "center", marginLeft: "5%", borderRadius: 100, overflow: "hidden", backgroundColor: "rgb(180,180,180)" }}>
+                <View style={{ height: width / 4, flexDirection: "row" }}>
+                    <TouchableOpacity activeOpacity={1} style={{ height: width / 5, borderBottomColor: "blue", borderBottomWidth: 1, alignSelf: "center", marginLeft: "5%", borderRadius: 100, overflow: "hidden", backgroundColor: "rgb(180,180,180)" }}>
                         <Image
                             onPress={() => this.start()}
                             source={{ uri: this.state.avatarSource }}
@@ -179,7 +96,7 @@ class SideBar extends React.Component {
                     <Text style={{ color: "blue", alignSelf: "center", fontSize: fontScale * 23, marginLeft: "5%" }}>{this.props.resName}</Text>
                 </View>
 
-                <TouchableOpacity activeOpacity={1} style={{ height: width / 4, borderBottomColor: "blue", borderBottomWidth: 1, backgroundColor: "rgb(180,180,180)", flexDirection: "row" }} onPress={() => { this.props.onclose() }} >
+                <TouchableOpacity activeOpacity={1} style={{ height: width / 4, borderBottomColor: "blue", borderBottomWidth: 1, backgroundColor: "rgb(180,180,180)", flexDirection: "row" }} onPress={() =>this.props.navigation.navigate('AddProduct')} >
                     <View style={{ alignSelf: "center", marginLeft: "5%" }}>
                         <Icon name="ios-home" />
                     </View>
@@ -204,6 +121,9 @@ class SideBar extends React.Component {
                     </View>
                     <Text style={{ color: 'blue', alignSelf: "center", fontSize: fontScale * 25, marginLeft: "5%" }} >Logout</Text>
                 </TouchableOpacity>
+                <View style={{backgroundColor: 'rgb(180,180,180)'}}>
+
+                </View>
             </View>
         );
     }

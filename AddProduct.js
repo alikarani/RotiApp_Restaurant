@@ -205,61 +205,6 @@ export default class AddProduct extends Component {
                     </View>
                     <Button onPress={() => this.Upload()} style={{ marginTop: 2, backgroundColor: "rgb(180,180,180)", height: width / 7, width: width / 4, alignSelf: "center", justifyContent: "center" }}><Text style={{ color: "red", fontSize: 20, textAlign: "center" }}>Add</Text></Button>
                 </Container>
-                {/* <View style={styles.container} >
-                    <View style={{ width, height: 50, backgroundColor: "red" }}><Text style={{ color: "white", fontSize: 25 }} onPress={this.openDrawer}>Open Drawer</Text></View>
-                    <View style={{ display: 'flex', flexDirection: 'row', width: width / 1.1, height: width / 7, alignSelf: "center" }}>
-                        <TextInput
-                            style={{ fontWeight: "bold", height: width / 7, backgroundColor: "rgba(100,200,150,0.5)", width: width / 2.1, color: "#ffffff", fontSize: fontScale * 25, paddingRight: "2%", paddingLeft: "2%" }}
-                            onChangeText={(Itemname) => this.setState({ Itemname })}
-                            value={this.state.Itemname}
-                            placeholder="Itemname"
-                            placeholderTextColor="#ffffff"
-                            autoCapitalize='none'
-                        />
-                        <Text style={{ fontSize: 18, backgroundColor: "rgba(100,200,150,0.5)" }}>{this.props.navigation.state.params.resName}</Text>
-                    </View>
-                    <View style={{ marginTop: 2, display: 'flex', flexDirection: 'row', width: width / 1.1, height: width / 7, alignSelf: "center" }}>
-                        <TextInput
-                            style={{ fontWeight: "bold", height: width / 7, backgroundColor: "rgba(100,200,150,0.5)", width: width / 2.1, color: "#ffffff", fontSize: fontScale * 25, paddingRight: "2%", paddingLeft: "2%" }}
-                            onChangeText={(description) => this.setState({ description })}
-                            value={this.state.description}
-                            placeholder="description"
-                            placeholderTextColor="#ffffff"
-                            autoCapitalize='none'
-                        />
-                        <TextInput
-                            style={{ fontWeight: "bold", height: width / 7, width: width / 2.3, backgroundColor: "rgba(100,200,150,0.5)", color: "#ffffff", fontSize: fontScale * 25, paddingRight: "2%", paddingLeft: "2%" }}
-                            onChangeText={(basequantity) => this.setState({ basequantity })}
-                            value={this.state.basequantity}
-                            placeholder="basequantity"
-                            placeholderTextColor="#ffffff"
-                            autoCapitalize='none'
-                        />
-                    </View>
-                    <View style={{ marginTop: 2, display: 'flex', flexDirection: 'row', width: width / 1.1, height: width / 7, alignSelf: "center" }}>
-                        <TextInput
-                            style={{ fontWeight: "bold", height: width / 7, backgroundColor: "rgba(100,200,150,0.5)", width: width / 2.1, color: "#ffffff", fontSize: fontScale * 25, paddingRight: "2%", paddingLeft: "2%" }}
-                            onChangeText={(cost) => this.setState({ cost })}
-                            value={this.state.cost}
-                            placeholder="cost"
-                            placeholderTextColor="#ffffff"
-                            autoCapitalize='none'
-                        />
-                        <TextInput
-                            style={{ fontWeight: "bold", height: width / 7, width: width / 2.3, backgroundColor: "rgba(100,200,150,0.5)", color: "#ffffff", fontSize: fontScale * 25, paddingRight: "2%", paddingLeft: "2%" }}
-                            onChangeText={(image) => this.setState({ image })}
-                            value={this.state.image}
-                            placeholder="image"
-                            placeholderTextColor="#ffffff"
-                            autoCapitalize='none'
-                        />
-                    </View>
-                    {this.state.add ?
-                        <Button onPress={() => this.Upload()} style={{ backgroundColor: "rgb(180,180,180)", height: width / 7, width: width / 4, borderRadius: 100, alignSelf: "center", paddingLeft: "5%" }}><Text style={{ color: "#ffffff", fontWeight: "bold" }}>Add</Text></Button>
-                        :
-                        <Button onPress={() => this.Update()} style={{ backgroundColor: "rgb(180,180,180)", height: width / 7, width: width / 4, borderRadius: 100, alignSelf: "center", paddingLeft: "5%" }}><Text style={{ color: "#ffffff", fontWeight: "bold" }}>Update</Text></Button>
-                    }
-                </View > */}
             </Drawer>
         );
     }

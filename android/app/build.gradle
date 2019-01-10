@@ -104,11 +104,7 @@ android {
             }
         }
     }
-     buildTypes {
-        release {
-            signingConfig signingConfigs.release
-        }
-    }
+     
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
@@ -132,6 +128,7 @@ android {
     }
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }

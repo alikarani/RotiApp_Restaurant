@@ -31,16 +31,15 @@ export default class ViewProduct extends Component {
         this.state = {
             checking: this.props.navigation.state.params.ordered,
             datacmg: this.props.navigation.state.params.Prod,
-            filtered:[]
+            filtered: []
         }
-        // this.Get = this.Get.bind(this);
+        this.Get = this.Get.bind(this);
         this.filter = this.filter.bind(this);
     }
     UNSAFE_componentWillMount() {
         this.Get();
     }
     Get() {
-        // fetch('http://localhost:5000/api/ninjas', {
         fetch('https://rotiappp.herokuapp.com/api/menu', {
             method: "GET",
             headers: {
