@@ -16,8 +16,9 @@ import {
     Dimensions,
     ScrollView,
     TextInput,
+    ToastAndroid
 } from 'react-native';
-import { Button, CheckBox, ListItem } from "native-base";
+import { Button, CheckBox, ListItem, Toast } from "native-base";
 // import { Content, Container, Thumbnail, CardItem, Left, Body, Right, Footer, FooterTab, Button, Icon, Textarea, Toast } from "native-base"
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 const { height, width, fontScale } = Dimensions.get('window');
@@ -32,6 +33,7 @@ export default class SignUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            stm: true,
             email: "",
             password: "",
             datacmg: ""
@@ -41,6 +43,11 @@ export default class SignUp extends Component {
     }
     UNSAFE_componentWillMount() {
         this.Get();
+        setTimeout(() => {
+            this.setState({
+                stm: false
+            })
+        }, 2500)
     }
     Get() {
         fetch('https://rotiappp.herokuapp.com/api/restaurants', {
@@ -62,66 +69,112 @@ export default class SignUp extends Component {
             if (this.state.datacmg[i].email == this.state.email) {
                 if (this.state.datacmg[i].Password == this.state.password) {
                     if (this.state.datacmg[i].ApprovedAccount == true) {
-                        this.props.navigation.navigate('AddProduct',{resName:this.state.datacmg[i].restaurantname})
+                        this.props.navigation.navigate('AddProduct', { resName: this.state.datacmg[i].restaurantname })
                         this.setState({
-                            email:"",
-                            password:""
+                            email: "",
+                            password: ""
                         })
                         break;
                     }
-                    else{
-                        alert("Account not Authorized!");
+                    else {
+                        // Toast.show({
+                        //     text: 'Account not Authorized!',
+                        //     buttonText: 'Okay'
+                        //   })
+                        ToastAndroid.show('Account not Authorized!', ToastAndroid.SHORT);
+                        // alert("Account not Authorized!");
                         break;
                     }
                 }
                 else {
-                    alert("Password not match");
+                    // Toast.show({
+                    //     text: 'Password not match',
+                    //     buttonText: 'Okay'
+                    //   })
+                    ToastAndroid.show('Password not match', ToastAndroid.SHORT);
+                    // alert("Password not match");
                     break;
                 }
             }
             else {
-                alert("Email not match");
+                ToastAndroid.show('Email not match', ToastAndroid.SHORT);
+                // Toast.show({
+                //     text: 'Email not match',
+                //     buttonText: 'Okay'
+                //   })
+                // alert("Email not match");
             }
         }
     }
     render() {
         return (
-            <View style={styles.container}>
-                <ScrollView keyboardDismissMode="interactive" keyboardShouldPersistTaps="handled">
-                    <View style={{ height: width / 3.5, width }}></View>
-                    <View style={{ height: width / 5, justifyContent: "center" }}>
+            this.state.stm ? <View style={styles.container}>
+                <View style={{ justifyContent: "flex-end", alignItems: "center" }}>
+                    <View style={{ width: width / 1.5, height: width / 2.7 }}>
                         <Image
-                            resizeMode="contain"
-                            style={{ width: width / 3, alignSelf: "center" }}
-                            source={require("./logo.jpeg")}
-                        />
+                            source={require("./logo.png")} resizeMode="contain" style={{ height: "100%", width: "100%" }} />
                     </View>
-                    <View style={{ height: width / 7, width }}></View>
-                    <View style={{ alignSelf: "center", borderRadius: 16, height: width / 1.2, width: width / 1.1, backgroundColor: "rgba(10,50,80,0.5)" }}>
-                        <TextInput
-                            underlineColorAndroid="white"
-                            style={{ fontWeight: "bold", fontWeight: "bold", height: width / 4, width, color: "rgb(99, 212, 218)", backgroundColor: "none", fontSize: fontScale * 19, paddingRight: "2%", paddingLeft: "2%" }}
-                            onChangeText={(email) => this.setState({ email })}
-                            value={this.state.email}
-                            placeholder="Email"
-                            placeholderTextColor="#ffffff"
-                            autoCapitalize='none'
-                        />
-                        <TextInput
-                            underlineColorAndroid="white"
-                            style={{ color: "rgb(99, 212, 218)", fontWeight: "bold", height: width / 4, width, backgroundColor: "none", fontSize: fontScale * 25, paddingRight: "2%", paddingLeft: "2%" }}
-                            onChangeText={(password) => this.setState({ password })}
-                            value={this.state.password}
-                            placeholder="Password"
-                            placeholderTextColor="#ffffff"
-                            secureTextEntry={true}
-                            autoCapitalize='none'
-                        />
-                        <Button style={{ height: width / 8, width: width / 1.7, backgroundColor: "purple", borderRadius: 24, alignSelf: "center", paddingLeft: "23%", marginTop: "5%" }} onPress={() => this.Login()}><Text style={{ color: "white", fontSize: fontScale * 25, fontWeight: "bold", justifyContent: "center" }}>SIGN IN</Text></Button>
-                        {/* <View style={{ flexDirection: "row", alignSelf: "center", marginTop: "5%" }}><Text style={{ color: "#ffffff", fontSize: fontScale * 22, fontWeight: "bold" }}>Dont Have an Account? </Text><Text onPress={() => this.props.navigation.navigate("SignUp")} style={{ textDecorationLine: 'underline', color: "#ffffff", fontSize: fontScale * 22 }}>Sign Up</Text></View> */}
+
+                    <View>
+                        <Text style={{ marginTop: '3.5%', color: "black", fontSize: fontScale * 20 }}>Welcome Partner!</Text>
                     </View>
-                </ScrollView>
-            </View>
+                </View>
+            </View> :
+                <View style={styles.container}>
+                    <ScrollView keyboardDismissMode="interactive" keyboardShouldPersistTaps="handled">
+                        <View style={{ height: width / 3, width, alignItems: "center", display: "flex", justifyContent: "flex-end" }}>
+                            <Text style={{ fontSize: 22, color: "black", justifyContent: "center" }}></Text>
+                            {/* <Text style={{ fontSize: 22, color: "black", justifyContent: "center" }}></Text> */}
+                            <Text style={{ fontSize: 22, color: "black", justifyContent: "center" }}>Login to your</Text>
+                            <Text style={{ fontSize: 22, color: "black", justifyContent: "center" }}>RotiApp account</Text>
+                        </View>
+                        <View style={{ height: width / 1.85, justifyContent: "center" }} padder>
+                            <Image
+                                resizeMode="contain"
+                                style={{ width: width / 1.6, height: width / 1.5, alignSelf: "center" }}
+                                source={require("./shakehands.png")}
+                            />
+                        </View>
+                        {/* boxShadow:"0px -3px 3px 0px rgba(0,0,0,0.25)", */}
+                        {/* <View style={{ height: width / 7, width,backgroundColor:"purple" }}></View> */}
+                        <View style={{ alignSelf: "center", borderRadius: 16, height: width / 1.5, width: width / 1.1 }}>
+                            <View style={{ borderTopWidth: 1, borderTopColor: "rgba(0, 0, 0, 0.25)", direction: "flex", flexDirection: "row" }}>
+                                <TextInput
+                                    // underlineColorAndroid="white"
+                                    style={{ height: width / 6, width: width / 1.3, color: "black", backgroundColor: "none", color: "f7f7f7", fontSize: fontScale * 19, paddingRight: "2%", paddingLeft: "2%" }}
+                                    onChangeText={(email) => this.setState({ email })}
+                                    value={this.state.email}
+                                    placeholder="E-Mail"
+                                    placeholderTextColor="f7f7f7"
+                                    autoCapitalize='none'
+                                />
+                                <Image
+                                    resizeMode="contain"
+                                    style={{ width: width / 13, height: width / 13, alignSelf: "center" }}
+                                    source={require("./email.png")}
+                                />
+                            </View>
+                            <View style={{ borderTopWidth: 1, borderTopColor: "rgba(0, 0, 0, 0.25)", direction: "flex", flexDirection: "row" }}>
+                                <TextInput
+                                    // underlineColorAndroid="white"
+                                    style={{ height: width / 6, width: width / 1.3, color: "black", backgroundColor: "none", color: "f7f7f7", fontSize: fontScale * 19, paddingRight: "2%", paddingLeft: "2%" }}
+                                    onChangeText={(password) => this.setState({ password })}
+                                    value={this.state.password}
+                                    placeholder="Password"
+                                    placeholderTextColor="f7f7f7"
+                                    secureTextEntry={true}
+                                    autoCapitalize='none'
+                                />
+                                <Image
+                                    resizeMode="contain"
+                                    style={{ width: width / 13, height: width / 13, alignSelf: "center" }}
+                                    source={require("./pwd.png")}
+                                />
+                            </View>
+                            <Button style={{ height: width / 8, width: width / 1.1, backgroundColor: "#C21807", alignSelf: "center", justifyContent: "center", marginTop: "2%" }} onPress={() => this.Login()}><Text style={{ color: "#ffff", fontSize: fontScale * 20, textAlign: "center" }}>LOGIN</Text></Button>
+                        </View>
+                    </ScrollView>
+                </View>
         );
     }
 }
@@ -131,7 +184,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#ffff',
     },
     welcome: {
         fontSize: 20,
