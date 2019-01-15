@@ -15,12 +15,11 @@ import {
     Dimensions,
     TouchableOpacity,
     TextInput,
-    ScrollView
+    ScrollView,
+    BackHandler
 } from 'react-native';
 // import { Content, Container, Thumbnail, CardItem, Left, Body, Right, Footer, FooterTab, Button, Icon, Textarea, Toast, Header } from "native-base"
 import { Container, Header, Title, Button, Left, Right, Body, Icon } from 'native-base';
-import { Drawer } from 'native-base';
-import SideBar from './SideBar';
 const { height, width, fontScale } = Dimensions.get('window');
 const instructions = Platform.select({
     ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -34,23 +33,25 @@ export default class MainPage extends Component {
         super(props);
         this.state = {
             datacmgIn: [],
-            datacmgOrd: []
-            // avatarSource: "https://firebasestorage.googleapis.com/v0/b/sugarandspice-34c66.appspot.com/o/posts%2Fbiryani.jpg?alt=media&token=1683cab5-2fbf-4d06-b155-4ff570ab7b77",
-            // Itemname: "",
-            // description: "",
-            // basequantity: "",
-            // image: "Right now!",
-            // cost: "",
-            // id: "",
-            // add: true,
-            // restaurantName: this.props.navigation.state.params.resName
+            datacmgOrd: [],
+            auth: this.props.navigation.state.params.auth,
         }
-        // this.Upload = this.Upload.bind(this);
-        // this.Update = this.Update.bind(this);
-        // this.start = this.start.bind(this);
+        this.Logout = this.Logout.bind(this);
+    }
+    componentDidMount() {
+        BackHandler.addEventListener("hardwareBackPress", this.onbackPress)
+    }
+    componentWillUnmount() {
+        BackHandler.removeEventListener("hardwareBackPress", this.onbackPress)
+    }
+    Logout(){
+        this.setState({
+            auth:false
+        })
+        this.props.navigation.navigate('SignIn')
     }
     render() {
-        console.log(this.props," this props");
+        // console.log(this.props, " this props");
         return (
             <Container>
                 <View style={{ height: width / 8, backgroundColor: "#C21807", display: "flex", flexDirection: "row" }}>
@@ -160,15 +161,13 @@ export default class MainPage extends Component {
                     </View>
 
                     <View style={{ height: width / 8, display: "flex", backgroundColor: "#f7f7f7", flexDirection: "row" }}>
-                        {/* <View style={{ width: "25%", height: width / 8 }}></View> */}
                         <View style={{ width: "70%", height: width / 8, display: "flex", justifyContent: "center", alignSelf: "center", marginLeft: "4%" }}>
                             <Text style={{ fontSize: 20, color: "#C21807" }}>Help and support</Text>
                         </View>
                         <View style={{ width: "30%", height: width / 8 }}></View>
                     </View>
 
-                    <TouchableOpacity activeOpacity={1} onPress={() => this.props.navigation.navigate('SignIn')} style={{ height: width / 8, display: "flex", backgroundColor: "#f7f7f7", flexDirection: "row" }}>
-                        {/* <View style={{ width: "25%", height: width / 8 }}></View> */}
+                    <TouchableOpacity activeOpacity={1} onPress={() => this.Logout()} style={{ height: width / 8, display: "flex", backgroundColor: "#f7f7f7", flexDirection: "row" }}>
                         <View style={{ width: "70%", height: width / 8, display: "flex", justifyContent: "center", alignSelf: "center", marginLeft: "4%" }}>
                             <Text style={{ fontSize: 20, color: "#C21807" }}>Log out</Text>
                         </View>

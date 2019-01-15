@@ -36,12 +36,14 @@ export default class SignUp extends Component {
             stm: true,
             email: "",
             password: "",
-            datacmg: ""
+            datacmg: "",
+            auth: false,
         }
         this.Get = this.Get.bind(this);
         this.Login = this.Login.bind(this);
     }
     UNSAFE_componentWillMount() {
+        this.state.auth ? this.props.navigation.navigate('MainPage') : ""
         this.Get();
         setTimeout(() => {
             this.setState({
@@ -69,11 +71,12 @@ export default class SignUp extends Component {
             if (this.state.datacmg[i].email == this.state.email) {
                 if (this.state.datacmg[i].Password == this.state.password) {
                     if (this.state.datacmg[i].ApprovedAccount == true) {
-                        this.props.navigation.navigate('MainPage', { resName: this.state.datacmg[i].restaurantname })
                         this.setState({
+                            auth: true,
                             email: "",
                             password: ""
                         })
+                        this.props.navigation.navigate('MainPage', { resName: this.state.datacmg[i].restaurantname, auth: this.state.auth })
                         break;
                     }
                     else {
