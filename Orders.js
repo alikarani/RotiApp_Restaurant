@@ -56,9 +56,9 @@ export default class Orders extends Component {
         return (
             <ScrollView>
                 <Container>
-                    {this.state.filtered1.map((data, i) => {
-                        return (
-                            <Content>
+                    <Content>
+                        {this.state.filtered1.map((data, i) => {
+                            return (
                                 <Card style={{ flex: 0 }}>
                                     <CardItem>
                                         <Left>
@@ -85,9 +85,9 @@ export default class Orders extends Component {
                                         </Left>
                                     </CardItem>
                                 </Card>
-                            </Content>
-                        )
-                    })}
+                            )
+                        })}
+                    </Content>
                 </Container>
             </ScrollView>
         );

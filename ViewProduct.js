@@ -68,9 +68,9 @@ export default class ViewProduct extends Component {
         return (
             <ScrollView>
                 <Container>
-                    {this.state.filtered.map((data, i) => {
-                        return (
-                            <Content>
+                    <Content>
+                        {this.state.filtered.map((data, i) => {
+                            return (
                                 <Card style={{ flex: 0 }}>
                                     <CardItem>
                                         <Left>
@@ -117,9 +117,9 @@ export default class ViewProduct extends Component {
                                         </Left>
                                     </CardItem>
                                 </Card>
-                            </Content>
-                        )
-                    })}
+                            )
+                        })}
+                    </Content>
                 </Container>
             </ScrollView>
         );

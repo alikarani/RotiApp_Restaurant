@@ -69,7 +69,7 @@ export default class SignUp extends Component {
             if (this.state.datacmg[i].email == this.state.email) {
                 if (this.state.datacmg[i].Password == this.state.password) {
                     if (this.state.datacmg[i].ApprovedAccount == true) {
-                        this.props.navigation.navigate('AddProduct', { resName: this.state.datacmg[i].restaurantname })
+                        this.props.navigation.navigate('MainPage', { resName: this.state.datacmg[i].restaurantname })
                         this.setState({
                             email: "",
                             password: ""

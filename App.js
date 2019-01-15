@@ -8,6 +8,7 @@ import AddProduct from './AddProduct'
 import ViewProduct from './ViewProduct'
 import Orders from './Orders'
 import EditProduct from './EditProduct'
+import MainPage from './MainPage'
 import SideBar from './SideBar';
 class HomeScreen extends React.Component {
   constructor(props) {
@@ -54,8 +55,8 @@ const AppNavigator = createStackNavigator({
       header: null,
     }
   },
-  Home: {
-    screen: HomeScreen,
+  MainPage: {
+    screen: MainPage,
     navigationOptions: {
       header: null,
     }
