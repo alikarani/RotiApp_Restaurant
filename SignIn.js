@@ -77,32 +77,17 @@ export default class SignUp extends Component {
                         break;
                     }
                     else {
-                        // Toast.show({
-                        //     text: 'Account not Authorized!',
-                        //     buttonText: 'Okay'
-                        //   })
                         ToastAndroid.show('Account not Authorized!', ToastAndroid.SHORT);
-                        // alert("Account not Authorized!");
                         break;
                     }
                 }
                 else {
-                    // Toast.show({
-                    //     text: 'Password not match',
-                    //     buttonText: 'Okay'
-                    //   })
                     ToastAndroid.show('Password not match', ToastAndroid.SHORT);
-                    // alert("Password not match");
                     break;
                 }
             }
             else {
                 ToastAndroid.show('Email not match', ToastAndroid.SHORT);
-                // Toast.show({
-                //     text: 'Email not match',
-                //     buttonText: 'Okay'
-                //   })
-                // alert("Email not match");
             }
         }
     }
@@ -124,7 +109,6 @@ export default class SignUp extends Component {
                     <ScrollView keyboardDismissMode="interactive" keyboardShouldPersistTaps="handled">
                         <View style={{ height: width / 3, width, alignItems: "center", display: "flex", justifyContent: "flex-end" }}>
                             <Text style={{ fontSize: 22, color: "black", justifyContent: "center" }}></Text>
-                            {/* <Text style={{ fontSize: 22, color: "black", justifyContent: "center" }}></Text> */}
                             <Text style={{ fontSize: 22, color: "black", justifyContent: "center" }}>Login to your</Text>
                             <Text style={{ fontSize: 22, color: "black", justifyContent: "center" }}>RotiApp account</Text>
                         </View>
@@ -135,12 +119,9 @@ export default class SignUp extends Component {
                                 source={require("./shakehands.png")}
                             />
                         </View>
-                        {/* boxShadow:"0px -3px 3px 0px rgba(0,0,0,0.25)", */}
-                        {/* <View style={{ height: width / 7, width,backgroundColor:"purple" }}></View> */}
                         <View style={{ alignSelf: "center", borderRadius: 16, height: width / 1.5, width: width / 1.1 }}>
                             <View style={{ borderTopWidth: 1, borderTopColor: "rgba(0, 0, 0, 0.25)", direction: "flex", flexDirection: "row" }}>
                                 <TextInput
-                                    // underlineColorAndroid="white"
                                     style={{ height: width / 6, width: width / 1.3, color: "black", backgroundColor: "none", color: "f7f7f7", fontSize: fontScale * 19, paddingRight: "2%", paddingLeft: "2%" }}
                                     onChangeText={(email) => this.setState({ email })}
                                     value={this.state.email}
@@ -156,7 +137,6 @@ export default class SignUp extends Component {
                             </View>
                             <View style={{ borderTopWidth: 1, borderTopColor: "rgba(0, 0, 0, 0.25)", direction: "flex", flexDirection: "row" }}>
                                 <TextInput
-                                    // underlineColorAndroid="white"
                                     style={{ height: width / 6, width: width / 1.3, color: "black", backgroundColor: "none", color: "f7f7f7", fontSize: fontScale * 19, paddingRight: "2%", paddingLeft: "2%" }}
                                     onChangeText={(password) => this.setState({ password })}
                                     value={this.state.password}

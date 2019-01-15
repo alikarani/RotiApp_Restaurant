@@ -45,42 +45,8 @@ class SideBar extends React.Component {
             datacmgOrd: [],
             avatarSource: "https://firebasestorage.googleapis.com/v0/b/sugarandspice-34c66.appspot.com/o/logo.jpeg?alt=media&token=a312edfb-6a2e-48a2-a00d-b0da7e6c08dd"
         }
-        this.Get = this.Get.bind(this);
-        this.GetOrd = this.GetOrd.bind(this);
-    }
-    UNSAFE_componentWillMount() {
-        this.Get();
-        this.GetOrd();
-    }
-    GetOrd() {
-        fetch('https://rotiappp.herokuapp.com/api/orders', {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            }
-        }).then(function (response) {
-            return response.json();
-        }).then(data => {
-            this.setState({
-                datacmgOrd: data
-            })
-        }
-        ).catch(error => alert(error));
-    }
-    Get() {
-        fetch('https://rotiappp.herokuapp.com/api/menu', {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            }
-        }).then(function (response) {
-            return response.json();
-        }).then(data => {
-            this.setState({
-                datacmgIn: data
-            })
-        }
-        ).catch(error => alert(error));
+        // this.Get = this.Get.bind(this);
+        // this.GetOrd = this.GetOrd.bind(this);
     }
     render() {
         return (

@@ -30,17 +30,16 @@ export default class ViewProduct extends Component {
         super(props);
         this.state = {
             checking: this.props.navigation.state.params.ordered,
-            datacmg: this.props.navigation.state.params.Prod,
+            // datacmg: this.props.navigation.state.params.Prod,
             filtered: []
         }
         this.Get = this.Get.bind(this);
-        this.filter = this.filter.bind(this);
     }
     UNSAFE_componentWillMount() {
         this.Get();
     }
     Get() {
-        fetch('https://rotiappp.herokuapp.com/api/menu', {
+        fetch(`https://rotiappp.herokuapp.com/api/menu/${this.state.checking}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -48,20 +47,11 @@ export default class ViewProduct extends Component {
         }).then(function (response) {
             return response.json();
         }).then(data => {
-            this.filter(data);
+            this.setState({
+                filtered: data
+            })
         }
         ).catch(error => alert(error));
-    }
-    filter(datacomming) {
-        let data = [];
-        for (let i = 0; i < datacomming.length; i++) {
-            if (datacomming[i].Restaurantname == this.state.checking) {
-                data.push(datacomming[i])
-            }
-        }
-        this.setState({
-            filtered: data
-        })
     }
     Delete(id) {
         fetch(`https://rotiappp.herokuapp.com/api/menu/${id}`, {
@@ -75,10 +65,9 @@ export default class ViewProduct extends Component {
         ).catch(error => alert(error));
     }
     render() {
-        console.log("cv", this.props);
         return (
-            <Container>
-                <ScrollView>
+            <ScrollView>
+                <Container>
                     {this.state.filtered.map((data, i) => {
                         return (
                             <Content>
@@ -131,15 +120,15 @@ export default class ViewProduct extends Component {
                             </Content>
                         )
                     })}
-                </ScrollView>
-            </Container>
+                </Container>
+            </ScrollView>
         );
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        // flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
