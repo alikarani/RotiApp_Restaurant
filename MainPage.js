@@ -16,7 +16,8 @@ import {
     TouchableOpacity,
     TextInput,
     ScrollView,
-    BackHandler
+    BackHandler,
+    Alert
 } from 'react-native';
 // import { Content, Container, Thumbnail, CardItem, Left, Body, Right, Footer, FooterTab, Button, Icon, Textarea, Toast, Header } from "native-base"
 import { Container, Header, Title, Button, Left, Right, Body, Icon } from 'native-base';
@@ -29,8 +30,12 @@ const instructions = Platform.select({
 });
 
 export default class MainPage extends Component {
+    _didFocusSubscription;
+    _willBlurSubscription;
     constructor(props) {
         super(props);
+        this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
+            BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressAndroid));
         this.state = {
             datacmgIn: [],
             datacmgOrd: [],
@@ -38,15 +43,59 @@ export default class MainPage extends Component {
         }
         this.Logout = this.Logout.bind(this);
     }
+
     componentDidMount() {
-        BackHandler.addEventListener("hardwareBackPress", this.onbackPress)
+        this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
+            BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
+        );
     }
+
+    onBackButtonPressAndroid = () => {
+        if (this.isSelectionModeEnabled()) {
+            this.disableSelectionMode();
+            return true;
+        } else {
+            return false;
+        }
+    };
+
     componentWillUnmount() {
-        BackHandler.removeEventListener("hardwareBackPress", this.onbackPress)
+        this._didFocusSubscription && this._didFocusSubscription.remove();
+        this._willBlurSubscription && this._willBlurSubscription.remove();
     }
-    Logout(){
+    // onButtonPress = () => {
+    //     BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    //     // then navigate
+    //     navigate('NewScreen');
+    // }
+
+    // handleBackButton = () => {
+    //     Alert.alert(
+    //         'Exit App',
+    //         'Exiting the application?', [{
+    //             text: 'Cancel',
+    //             // onPress: () = > console.log('Cancel Pressed'),
+    //             style: 'cancel'
+    //         }, {
+    //             text: 'OK',
+    //             // onPress: () = > BackHandler.exitApp()
+    //         },], {
+    //             cancelable: false
+    //         }
+    //     )
+    //     return true;
+    // }
+    // componentDidMount() {
+    //     BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    // }
+
+    // componentWillUnmount() {
+    //     alert("Unmont");
+    //     BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    // }
+    Logout() {
         this.setState({
-            auth:false
+            auth: false
         })
         this.props.navigation.navigate('SignIn')
     }
@@ -96,24 +145,22 @@ export default class MainPage extends Component {
                     </View>
 
 
-                    <TouchableOpacity activeOpacity={1} onPress={() => this.props.navigation.navigate('ViewProduct', { ordered: this.props.navigation.state.params.resName, Prod: this.state.datacmgIn })} style={{ height: width / 8, display: "flex", flexDirection: "row", backgroundColor: "#f7f7f7" }}>
-                        {/* <View style={{ width: "25%", height: width / 8 }}></View> */}
+                    <View style={{ height: width / 8, display: "flex", flexDirection: "row", backgroundColor: "#f7f7f7" }}>
                         <View style={{ width: "70%", height: width / 8, alignSelf: "center", display: "flex", justifyContent: "center", marginLeft: "4%" }}>
                             <Text style={{ fontSize: 20, color: "#C21807" }}>Menu Management</Text>
                         </View>
                         <View style={{ width: "30%", height: width / 8 }}></View>
-                    </TouchableOpacity>
+                    </View>
 
-                    <View style={{ marginTop: "1%", height: width / 8, backgroundColor: "#f7f7f7", display: "flex", flexDirection: "row" }}>
+                    <TouchableOpacity activeOpacity={1} onPress={() => this.props.navigation.navigate('ViewProduct', { ordered: this.props.navigation.state.params.resName, Prod: this.state.datacmgIn })} style={{ marginTop: "1%", height: width / 8, backgroundColor: "#f7f7f7", display: "flex", flexDirection: "row" }}>
                         <View style={{ width: "15%", height: width / 8 }}></View>
                         <View style={{ width: "70%", height: width / 8, display: "flex", justifyContent: "center" }}>
                             <Text style={{ fontSize: 20, color: "#C21807" }}>My menu list</Text>
                         </View>
                         <View style={{ width: "15%", height: width / 8 }}></View>
-                    </View>
+                    </TouchableOpacity>
 
                     <View style={{ height: width / 8, display: "flex", flexDirection: "row", backgroundColor: "#f7f7f7" }}>
-                        {/* <View style={{ width: "25%", height: width / 8 }}></View> */}
                         <View style={{ width: "70%", height: width / 8, alignSelf: "center", display: "flex", justifyContent: "center", marginLeft: "4%" }}>
                             <Text style={{ fontSize: 20, color: "#C21807" }}>My Earnings</Text>
                         </View>
