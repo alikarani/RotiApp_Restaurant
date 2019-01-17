@@ -25,7 +25,7 @@ const instructions = Platform.select({
         'Double tap R on your keyboard to reload,\n' +
         'Shake or press menu button for dev menu',
 });
-export default class Orders extends Component {
+export default class InProcessOrders extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -38,7 +38,7 @@ export default class Orders extends Component {
         this.Get();
     }
     Get() {
-        fetch(`https://rotiappp.herokuapp.com/api/orders/${this.state.checking}`, {
+        fetch(`https://rotiappp.herokuapp.com/api/orders/${this.state.checking}/Waiting`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -96,7 +96,6 @@ export default class Orders extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        // flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5FCFF',

@@ -6,7 +6,9 @@ import SignIn from './SignIn'
 import SignUp from './SignUp'
 import AddProduct from './AddProduct'
 import ViewProduct from './ViewProduct'
-import Orders from './Orders'
+import NewOrders from './NewOrders'
+import InProcessOrder from './InProcessOrder'
+import CompletedOrders from './CompletedOrdered'
 import EditProduct from './EditProduct'
 import MainPage from './MainPage'
 import SideBar from './SideBar';
@@ -73,8 +75,20 @@ const AppNavigator = createStackNavigator({
       header: null,
     }
   },
-  Orders: {
-    screen: Orders,
+  NewOrders: {
+    screen: NewOrders,
+    navigationOptions: {
+      header: null,
+    }
+  },
+  InProcessOrder: {
+    screen: InProcessOrder,
+    navigationOptions: {
+      header: null,
+    }
+  },
+  CompletedOrders: {
+    screen: CompletedOrders,
     navigationOptions: {
       header: null,
     }
