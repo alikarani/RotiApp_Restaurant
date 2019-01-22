@@ -33,12 +33,13 @@ export default class NewOrders extends Component {
             filtered1: []
         }
         this.Get = this.Get.bind(this);
+        this.Accepted = this.Accepted.bind(this);
     }
     UNSAFE_componentWillMount() {
         this.Get();
     }
     Get() {
-        fetch(`https://rotiappp.herokuapp.com/api/orders/${this.state.checking}/Waiting`, {
+        fetch(`https://rotiappp.herokuapp.com/api/orders/${this.state.checking}/New Orders`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -51,6 +52,27 @@ export default class NewOrders extends Component {
             })
         }
         ).catch(error => alert("No Orders"));
+    }
+    Accepted(ide, Cancel, SNo, OrderStatus, OrderData, OrderNo, OrderDetails, OrderRestaurant) {
+        let payload = {
+            "Cancel": Cancel,
+            "SNo": `${SNo}`,
+            "OrderStatus": "In Process",
+            "OrderData": `${OrderData}`,
+            "OrderNo": `${OrderNo}`,
+            "OrderDetails": `${OrderDetails}`,
+            "OrderRestaurant": `${OrderRestaurant}`
+        }
+        fetch(`https://rotiappp.herokuapp.com/api/orders/${ide}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload)
+        }).then(function (response) {
+            return response.json();
+        }).then(data => alert("Accepted")
+        ).catch(error => alert(error));
     }
     render() {
         return (
@@ -79,7 +101,12 @@ export default class NewOrders extends Component {
                                     </CardItem>
                                     <CardItem>
                                         <Left>
-                                            <Button transparent textStyle={{ color: '#87838B' }}>
+                                            <Button textStyle={{ color: '#87838B' }} onPress={() => this.Accepted(data._id, data.Cancel, data.SNo, data.OrderStatus, data.OrderData, data.OrderNo, data.OrderDetails, data.OrderRestaurant)} >
+                                                <Text>Accepted</Text>
+                                                {/* <Icon name="logo-github" /> */}
+                                            </Button>
+                                            <Button textStyle={{ color: '#87838B' }}>
+                                                <Text>Decline</Text>
                                                 {/* <Icon name="logo-github" /> */}
                                             </Button>
                                         </Left>

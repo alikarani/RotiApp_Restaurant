@@ -38,7 +38,7 @@ export default class InProcessOrders extends Component {
         this.Get();
     }
     Get() {
-        fetch(`https://rotiappp.herokuapp.com/api/orders/${this.state.checking}/Waiting`, {
+        fetch(`https://rotiappp.herokuapp.com/api/orders/${this.state.checking}/In Process`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
