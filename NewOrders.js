@@ -70,8 +70,7 @@ export default class NewOrders extends Component {
             },
             body: JSON.stringify(payload)
         }).then(function (response) {
-            return response.json();
-        }).then(data => alert("Accepted")
+    }).then(data => this.Get()
         ).catch(error => alert(error));
     }
     render() {
