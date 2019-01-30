@@ -38,7 +38,7 @@ export default class CompletedOrders extends Component {
         this.Get();
     }
     Get() {
-        fetch(`https://rotiappp.herokuapp.com/api/orders/${this.state.checking}/Delivered`, {
+        fetch(`https://rotiappp.herokuapp.com/api/orders/${this.state.checking}/DeliveryStarted`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

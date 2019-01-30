@@ -57,7 +57,7 @@ export default class NewOrders extends Component {
         let payload = {
             "Cancel": Cancel,
             "SNo": `${SNo}`,
-            "OrderStatus": "In Process",
+            "OrderStatus": "AcceptedbyRestaurant",
             "OrderData": `${OrderData}`,
             "OrderNo": `${OrderNo}`,
             "OrderDetails": `${OrderDetails}`,

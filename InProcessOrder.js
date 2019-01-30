@@ -33,12 +33,13 @@ export default class InProcessOrders extends Component {
             filtered1: []
         }
         this.Get = this.Get.bind(this);
+        this.Accepted = this.Accepted.bind(this);
     }
     UNSAFE_componentWillMount() {
         this.Get();
     }
     Get() {
-        fetch(`https://rotiappp.herokuapp.com/api/orders/${this.state.checking}/In Process`, {
+        fetch(`https://rotiappp.herokuapp.com/api/orders/${this.state.checking}/AcceptedbyRestaurant`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -51,6 +52,26 @@ export default class InProcessOrders extends Component {
             })
         }
         ).catch(error => alert("No Orders"));
+    }
+    Accepted(ide, Cancel, SNo, OrderStatus, OrderData, OrderNo, OrderDetails, OrderRestaurant) {
+        let payload = {
+            "Cancel": Cancel,
+            "SNo": `${SNo}`,
+            "OrderStatus": "DeliveryStarted",
+            "OrderData": `${OrderData}`,
+            "OrderNo": `${OrderNo}`,
+            "OrderDetails": `${OrderDetails}`,
+            "OrderRestaurant": `${OrderRestaurant}`
+        }
+        fetch(`https://rotiappp.herokuapp.com/api/orders/${ide}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload)
+        }).then(function (response) {
+        }).then(data => this.Get()
+        ).catch(error => alert(error));
     }
     render() {
         return (
@@ -79,7 +100,8 @@ export default class InProcessOrders extends Component {
                                     </CardItem>
                                     <CardItem>
                                         <Left>
-                                            <Button transparent textStyle={{ color: '#87838B' }}>
+                                            <Button textStyle={{ color: '#87838B' }} onPress={() => this.Accepted(data._id, data.Cancel, data.SNo, data.OrderStatus, data.OrderData, data.OrderNo, data.OrderDetails, data.OrderRestaurant)} >
+                                                <Text>Completed</Text>
                                                 {/* <Icon name="logo-github" /> */}
                                             </Button>
                                         </Left>
