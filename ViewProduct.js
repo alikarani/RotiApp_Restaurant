@@ -39,7 +39,7 @@ export default class ViewProduct extends Component {
         this.Get();
     }
     Get() {
-        fetch(`https://rotiappp.herokuapp.com/api/menu/${this.state.checking}`, {
+        fetch(`https://dry-coast-84806.herokuapp.com/api/menu/${this.state.checking}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -54,7 +54,7 @@ export default class ViewProduct extends Component {
         ).catch(error => alert(error));
     }
     Delete(id) {
-        fetch(`https://rotiappp.herokuapp.com/api/menu/${id}`, {
+        fetch(`https://dry-coast-84806.herokuapp.com/api/menu/${id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
