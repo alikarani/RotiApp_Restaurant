@@ -30,7 +30,8 @@ export default class CompletedOrders extends Component {
         super(props);
         this.state = {
             checking: this.props.navigation.state.params.ordered1,
-            filtered1: []
+            filtered1: [],
+            filtered: []
         }
         this.Get = this.Get.bind(this);
     }
@@ -51,6 +52,19 @@ export default class CompletedOrders extends Component {
             })
         }
         ).catch(error => alert("No Orders"));
+        fetch(`https://dry-coast-84806.herokuapp.com/api/orders/${this.state.checking}/Delivered`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        }).then(function (response) {
+            return response.json();
+        }).then(data => {
+            this.setState({
+                filtered: data
+            })
+        }
+        ).catch(error => alert("No Orders"));
     }
     render() {
         return (
@@ -58,7 +72,6 @@ export default class CompletedOrders extends Component {
             <Container>
                 <Content>
                     {this.state.filtered1.map((data, i) => {
-                        // console.log(data, " data");
                         return (
                             <Card style={{ flex: 0 }}>
                                 <CardItem>
@@ -80,13 +93,35 @@ export default class CompletedOrders extends Component {
                                                 <Text>Name:{d.name} - Quantity:{d.quantity} - Price:{d.price}</Text>
                                             )
                                         })}
-
-                                        {/* <Text>
-                                            Order Driver-{data.OrderDriver}
-                                        </Text>
-                                        <Text>
-                                            Order Status-{data.OrderStatus}
-                                        </Text> */}
+                                    </Body>
+                                </CardItem>
+                            </Card>
+                        )
+                    })}
+                </Content>
+                <Content>
+                    {this.state.filtered.map((data, i) => {
+                        return (
+                            <Card style={{ flex: 0 }}>
+                                <CardItem>
+                                    <Left>
+                                        <Body>
+                                            <Text>
+                                                Order Driver: {data.OrderDriver}
+                                            </Text>
+                                            <Text>
+                                                Order Status: {data.OrderStatus}
+                                            </Text>
+                                        </Body>
+                                    </Left>
+                                </CardItem>
+                                <CardItem>
+                                    <Body>
+                                        {data.OrderItems && data.OrderItems.map((d, i) => {
+                                            return (
+                                                <Text>Name:{d.name} - Quantity:{d.quantity} - Price:{d.price}</Text>
+                                            )
+                                        })}
                                     </Body>
                                 </CardItem>
                             </Card>

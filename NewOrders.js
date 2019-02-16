@@ -54,26 +54,11 @@ export default class NewOrders extends Component {
         ).catch(error => alert("No Orders"));
     }
     Accepted(data) {
-        // let payload = {
-        //     "Cancel": data.Cancel,
-        //     "SNo":`${data.no}` ,
-        //     "OrderStatus": "AcceptedbyRestaurant",
-        //     "OrderNo":`${data.OrderNo}`,
-        //     "UserId":`${data.UserId}`,
-        //     "OrderDetails":`${data.OrderDetails}`,
-        //     "OrderDriver":`${data.OrderDriver}`,
-        //     "OrderItems":`${data.OrderItems}`,
-        //     "TotalCost":`${data.TotalCost}`,
-        //     "DeliveryAddress":`${data.DeliveryAddress}`,
-        //     "OrderData":`${data.OrderData}`
-        // }
-        // console.log(payload," payload");
         fetch(`https://dry-coast-84806.herokuapp.com/api/orders/${data.Id}/AcceptedbyRestaurant`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
-            // body: JSON.stringify(payload)
         }).then(function (response) {
         }).then(data => this.Get()
         ).catch(error => alert(error));
@@ -84,7 +69,6 @@ export default class NewOrders extends Component {
                 <Container>
                     <Content>
                         {this.state.filtered1.map((data, i) => {
-                            // console.log(data," /data");
                             return (
                                 <Card style={{ flex: 0 }}>
                                     <CardItem>
