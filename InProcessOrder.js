@@ -39,7 +39,7 @@ export default class InProcessOrders extends Component {
         this.Get();
     }
     Get() {
-        fetch(`https://dry-coast-84806.herokuapp.com/api/orders/${this.state.checking}/AcceptedbyRestaurant`, {
+        fetch(`https://rotiappserver.herokuapp.com/api/orders/${this.state.checking}/AcceptedbyRestaurant`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -54,21 +54,11 @@ export default class InProcessOrders extends Component {
         ).catch(error => alert("No Orders"));
     }
     Accepted(data) {
-        // let payload = {
-        //     "Cancel": Cancel,
-        //     "SNo": `${SNo}`,
-        //     "OrderStatus": "DeliveryStarted",
-        //     "OrderData": `${OrderData}`,
-        //     "OrderNo": `${OrderNo}`,
-        //     "OrderDetails": `${OrderDetails}`,
-        //     "OrderRestaurant": `${OrderRestaurant}`
-        // }
-        fetch(`https://dry-coast-84806.herokuapp.com/api/orders/${data.Id}/DeliveryStarted`, {
+        fetch(`https://rotiappserver.herokuapp.com/api/orders/${data.Id}/${this.state.checking}/DeliveryStarted`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
-            // body: JSON.stringify(payload)
         }).then(function (response) {
         }).then(data => this.Get()
         ).catch(error => alert(error));
@@ -85,10 +75,10 @@ export default class InProcessOrders extends Component {
                                         <Left>
                                             <Body>
                                                 <Text>
-                                                    Order Driver: {data.OrderDriver}
+                                                    Order Status: {data.ResOrdStatus}
                                                 </Text>
                                                 <Text>
-                                                    Order Status: {data.OrderStatus}
+                                                    Order Details: {data.OrderDetails}
                                                 </Text>
                                             </Body>
                                         </Left>
@@ -100,20 +90,12 @@ export default class InProcessOrders extends Component {
                                                     <Text>Name:{d.name} - Quantity:{d.quantity} - Price:{d.price}</Text>
                                                 )
                                             })}
-
-                                            {/* <Text>
-                                                Order Driver-{data.OrderDriver}
-                                            </Text>
-                                            <Text>
-                                                Order Status-{data.OrderStatus}
-                                            </Text> */}
                                         </Body>
                                     </CardItem>
                                     <CardItem>
                                         <Left>
                                             <Button textStyle={{ color: '#87838B' }} onPress={() => this.Accepted(data)} >
                                                 <Text>Delivered to Driver</Text>
-                                                {/* <Icon name="logo-github" /> */}
                                             </Button>
                                         </Left>
                                     </CardItem>
@@ -126,7 +108,6 @@ export default class InProcessOrders extends Component {
         );
     }
 }
-
 const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',

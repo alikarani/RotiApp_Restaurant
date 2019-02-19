@@ -39,7 +39,7 @@ export default class CompletedOrders extends Component {
         this.Get();
     }
     Get() {
-        fetch(`https://dry-coast-84806.herokuapp.com/api/orders/${this.state.checking}/DeliveryStarted`, {
+        fetch(`https://rotiappserver.herokuapp.com/api/orders/${this.state.checking}/DeliveryStarted`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -52,7 +52,7 @@ export default class CompletedOrders extends Component {
             })
         }
         ).catch(error => alert("No Orders"));
-        fetch(`https://dry-coast-84806.herokuapp.com/api/orders/${this.state.checking}/Delivered`, {
+        fetch(`https://rotiappserver.herokuapp.com/api/orders/${this.state.checking}/Delivered`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -78,10 +78,10 @@ export default class CompletedOrders extends Component {
                                     <Left>
                                         <Body>
                                             <Text>
-                                                Order Driver: {data.OrderDriver}
+                                                Order Status: {data.ResOrdStatus}
                                             </Text>
                                             <Text>
-                                                Order Status: {data.OrderStatus}
+                                                Order Driver: {data.OrderDriver}
                                             </Text>
                                         </Body>
                                     </Left>

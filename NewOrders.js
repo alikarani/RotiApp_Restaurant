@@ -39,7 +39,7 @@ export default class NewOrders extends Component {
         this.Get();
     }
     Get() {
-        fetch(`https://dry-coast-84806.herokuapp.com/api/orders/${this.state.checking}/New Orders`, {
+        fetch(`https://rotiappserver.herokuapp.com/api/orders/${this.state.checking}/New Orders`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -54,7 +54,7 @@ export default class NewOrders extends Component {
         ).catch(error => alert("No Orders"));
     }
     Accepted(data) {
-        fetch(`https://dry-coast-84806.herokuapp.com/api/orders/${data.Id}/AcceptedbyRestaurant`, {
+        fetch(`https://rotiappserver.herokuapp.com/api/orders/${data.Id}/${this.state.checking}/AcceptedbyRestaurant`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -69,16 +69,17 @@ export default class NewOrders extends Component {
                 <Container>
                     <Content>
                         {this.state.filtered1.map((data, i) => {
+                            // console.log(data," data");
                             return (
                                 <Card style={{ flex: 0 }}>
                                     <CardItem>
                                         <Left>
                                             <Body>
                                                 <Text>
-                                                    Order Driver: {data.OrderDriver}
+                                                    Order Status: {data.ResOrdStatus}
                                                 </Text>
                                                 <Text>
-                                                    Order Status: {data.OrderStatus}
+                                                    OrderDetails: {data.OrderDetails}
                                                 </Text>
                                             </Body>
                                         </Left>
