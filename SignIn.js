@@ -52,7 +52,7 @@ export default class SignUp extends Component {
         }, 2500)
     }
     Get() {
-        fetch('https://dry-coast-84806.herokuapp.com/api/restaurants', {
+        fetch('https://rotiappserver.herokuapp.com/api/restaurants', {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
