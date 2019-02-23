@@ -12,6 +12,7 @@ import CompletedOrders from './CompletedOrdered'
 import EditProduct from './EditProduct'
 import MainPage from './MainPage'
 import SideBar from './SideBar';
+import ThisWeekIncome from './ThisWeekIncome'
 class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -95,6 +96,12 @@ const AppNavigator = createStackNavigator({
   },
   EditProduct: {
     screen: EditProduct,
+    navigationOptions: {
+      header: null,
+    }
+  },
+  ThisWeekIncome:{
+    screen: ThisWeekIncome,
     navigationOptions: {
       header: null,
     }

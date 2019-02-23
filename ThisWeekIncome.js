@@ -32,10 +32,12 @@ export default class InProcessOrders extends Component {
         super(props);
         this.state = {
             checking: this.props.navigation.state.params.ordered1,
-            filtered1: []
+            filtered1: {},
+            total: 0
         }
         this.Get = this.Get.bind(this);
-        this.Accepted = this.Accepted.bind(this);
+        this.DateFormatted = this.DateFormatted.bind(this);
+        this.Update = this.Update.bind(this);
     }
     UNSAFE_componentWillMount() {
         this.Get();
@@ -52,58 +54,62 @@ export default class InProcessOrders extends Component {
             this.setState({
                 filtered1: data
             })
+            this.Update(data);
         }
         ).catch(error => alert("No Orders"));
     }
-    // Accepted(data) {
-    //     fetch(`https://rotiappserver.herokuapp.com/api/orders/${data.Id}/${this.state.checking}/DeliveryStarted`, {
-    //         method: "PUT",
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //         },
-    //     }).then(function (response) {
-    //     }).then(data => this.Get()
-    //     ).catch(error => alert(error));
-    // }
+    Update(all) {
+        let tot = 0;
+        for (let i = 0; i < all.CompletedOrders.length; i++) {
+            tot += all.CompletedOrders[i].Cost;
+        }
+        this.setState({
+            total: tot
+        })
+    }
+    DateFormatted(datecon) {
+        let d = new Date(datecon).getDate();
+        let m = new Date(datecon).getMonth();
+        let y = new Date(datecon).getFullYear();
+        return (d + "/" + m + "/" + y);
+    }
     render() {
         return (
             <ScrollView>
                 <Container>
                     <Content>
-                        {this.state.filtered1.map((data, i) => {
+                        {this.state.filtered1.CompletedOrders && this.state.filtered1.CompletedOrders.map((data, i) => {
                             return (
                                 <Card style={{ flex: 0 }}>
                                     <CardItem>
                                         <Left>
                                             <Body>
                                                 <Text>
-                                                    Order Status: {data.ResOrdStatus}
+                                                    Amount: {data.Cost}
                                                 </Text>
                                                 <Text>
-                                                    Order Details: {data.OrderDetails}
+                                                    OrderDeliveryDate: {this.DateFormatted(data.OrderDeliveryDate)}
+                                                </Text>
+                                                <Text>
+                                                    OrderPlacementDate: {this.DateFormatted(data.OrderPlacementDate)}
                                                 </Text>
                                             </Body>
-                                        </Left>
-                                    </CardItem>
-                                    <CardItem>
-                                        <Body>
-                                            {data.OrderItems && data.OrderItems.map((d, i) => {
-                                                return (
-                                                    <Text>Name:{d.name} - Quantity:{d.quantity} - Price:{d.price}</Text>
-                                                )
-                                            })}
-                                        </Body>
-                                    </CardItem>
-                                    <CardItem>
-                                        <Left>
-                                            <Button textStyle={{ color: '#87838B' }} onPress={() => this.Accepted(data)} >
-                                                <Text>Delivered to Driver</Text>
-                                            </Button>
                                         </Left>
                                     </CardItem>
                                 </Card>
                             )
                         })}
+                        <Card style={{ flex: 0 }}>
+                            <CardItem>
+                                <Left>
+                                    <Body>
+                                        <Text>
+                                            Total: {this.state.total}
+                                        </Text>
+                                    </Body>
+                                </Left>
+                            </CardItem>
+                        </Card>
                     </Content>
                 </Container>
             </ScrollView>

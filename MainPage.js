@@ -181,14 +181,13 @@ export default class MainPage extends Component {
                         </View>
                         <View style={{ width: "15%", height: width / 8 }}></View>
                     </View>
-
-                    <View style={{ marginTop: "1%", height: width / 8, backgroundColor: "#f7f7f7", display: "flex", flexDirection: "row" }}>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('ThisWeekIncome', { ordered1: this.props.navigation.state.params.resName})} style={{ marginTop: "1%", height: width / 8, backgroundColor: "#f7f7f7", display: "flex", flexDirection: "row" }}>
                         <View style={{ width: "15%", height: width / 8 }}></View>
                         <View style={{ width: "70%", height: width / 8, display: "flex", justifyContent: "center" }}>
                             <Text style={{ fontSize: 20, color: "#C21807" }}>Total income</Text>
                         </View>
                         <View style={{ width: "15%", height: width / 8 }}></View>
-                    </View>
+                    </TouchableOpacity>
 
                     <View style={{ marginTop: "1%",height: width / 8, display: "flex", flexDirection: "row", backgroundColor: "#f7f7f7" }}>
                         <View style={{ width: "70%", height: width / 8, alignSelf: "center", marginLeft: "4%" }}>
