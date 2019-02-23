@@ -53,6 +53,7 @@ export default class ThisWeekIncome extends Component {
             return response.json();
         }).then(data => {
             this.filter(data);
+            // console.log(data," data");
         }
         ).catch(error => alert("No Orders"));
     }
@@ -64,7 +65,7 @@ export default class ThisWeekIncome extends Component {
         // var lastday = new Date(curr.setDate(last)).toUTCString();
         let thismonthOrders = [];
         for (let i = 0; i < dt.CompletedOrders.length; i++) {
-            if ((new Date(dt.CompletedOrders[i].OrderPlacementDate).getMonth() >= first && new Date(dt.CompletedOrders[i].OrderPlacementDate).getMonth() <= last) && new Date(dt.CompletedOrders[i].OrderPlacementDate).getFullYear() == curr.getFullYear()) {
+            if ((new Date(dt.CompletedOrders[i].OrderPlacementDate).getDate() >= first && new Date(dt.CompletedOrders[i].OrderPlacementDate).getDate() <= last)&&(new Date(dt.CompletedOrders[i].OrderPlacementDate).getMonth()==curr.getMonth())&& new Date(dt.CompletedOrders[i].OrderPlacementDate).getFullYear() == curr.getFullYear()) {
                 // console.log(dt.CompletedOrders[i]);
                 thismonthOrders.push(dt.CompletedOrders[i]);
             }
