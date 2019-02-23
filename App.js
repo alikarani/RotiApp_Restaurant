@@ -15,6 +15,7 @@ import SideBar from './SideBar';
 import ThisWeekIncome from './ThisWeekIncome'
 import ThisMonthIncome from './ThisMonthIncome'
 import TotalAmount from './TotalAmount'
+import updateprofile from './updateprofile'
 class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -119,7 +120,14 @@ const AppNavigator = createStackNavigator({
     navigationOptions: {
       header: null,
     }
+  },
+  updateprofile:{
+    screen: updateprofile,
+    navigationOptions: {
+      header: null,
+    } 
   }
+
 });
 
 export default createAppContainer(AppNavigator);
