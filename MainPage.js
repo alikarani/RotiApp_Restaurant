@@ -166,22 +166,23 @@ export default class MainPage extends Component {
                         <View style={{ width: "30%", height: width / 8 }}></View>
                     </View>
 
-                    <View style={{ marginTop: "1%", height: width / 8, backgroundColor: "#f7f7f7", display: "flex", flexDirection: "row" }}>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('ThisWeekIncome', { ordered1: this.props.navigation.state.params.resName})} style={{ marginTop: "1%", height: width / 8, backgroundColor: "#f7f7f7", display: "flex", flexDirection: "row" }}>
                         <View style={{ width: "15%", height: width / 8 }}></View>
                         <View style={{ width: "70%", height: width / 8, display: "flex", justifyContent: "center" }}>
                             <Text style={{ fontSize: 20, color: "#C21807" }}>This week's income</Text>
                         </View>
                         <View style={{ width: "15%", height: width / 8 }}></View>
-                    </View>
-
-                    <View style={{ marginTop: "1%", height: width / 8, backgroundColor: "#f7f7f7", display: "flex", flexDirection: "row" }}>
+                    </TouchableOpacity>
+                    
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('ThisMonthIncome', { ordered1: this.props.navigation.state.params.resName})} style={{ marginTop: "1%", height: width / 8, backgroundColor: "#f7f7f7", display: "flex", flexDirection: "row" }} style={{ marginTop: "1%", height: width / 8, backgroundColor: "#f7f7f7", display: "flex", flexDirection: "row" }}>
                         <View style={{ width: "15%", height: width / 8 }}></View>
                         <View style={{ width: "70%", height: width / 8, display: "flex", justifyContent: "center" }}>
-                            <Text style={{ fontSize: 20, color: "#C21807" }}>Last week's income</Text>
+                            <Text style={{ fontSize: 20, color: "#C21807" }}>This Months income</Text>
                         </View>
                         <View style={{ width: "15%", height: width / 8 }}></View>
-                    </View>
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('ThisWeekIncome', { ordered1: this.props.navigation.state.params.resName})} style={{ marginTop: "1%", height: width / 8, backgroundColor: "#f7f7f7", display: "flex", flexDirection: "row" }}>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('TotalAmount', { ordered1: this.props.navigation.state.params.resName})} style={{ marginTop: "1%", height: width / 8, backgroundColor: "#f7f7f7", display: "flex", flexDirection: "row" }}>
                         <View style={{ width: "15%", height: width / 8 }}></View>
                         <View style={{ width: "70%", height: width / 8, display: "flex", justifyContent: "center" }}>
                             <Text style={{ fontSize: 20, color: "#C21807" }}>Total income</Text>
@@ -189,9 +190,9 @@ export default class MainPage extends Component {
                         <View style={{ width: "15%", height: width / 8 }}></View>
                     </TouchableOpacity>
 
-                    <View style={{ marginTop: "1%",height: width / 8, display: "flex", flexDirection: "row", backgroundColor: "#f7f7f7" }}>
-                        <View style={{ width: "70%", height: width / 8, alignSelf: "center", marginLeft: "4%" }}>
-                            <Text style={{ fontSize: 20, color: "#C21807", display: "flex", justifyContent: "center" }}>My Profile</Text>
+                    <View style={{ marginTop: "1%",height: width / 8, display: "flex", backgroundColor: "#f7f7f7", flexDirection: "row" }}>
+                          <View style={{ width: "70%", height: width / 8, display: "flex", justifyContent: "center", alignSelf: "center", marginLeft: "4%" }}>
+                            <Text style={{ fontSize: 20, color: "#C21807" }}>My Profile</Text>
                         </View>
                         <View style={{ width: "30%", height: width / 8 }}></View>
                     </View>

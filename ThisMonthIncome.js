@@ -27,7 +27,7 @@ const instructions = Platform.select({
         'Double tap R on your keyboard to reload,\n' +
         'Shake or press menu button for dev menu',
 });
-export default class ThisWeekIncome extends Component {
+export default class ThisMonthIncome extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -52,20 +52,19 @@ export default class ThisWeekIncome extends Component {
         }).then(function (response) {
             return response.json();
         }).then(data => {
+            // this.setState({
+            //     filtered1: data
+            // })
             this.filter(data);
         }
         ).catch(error => alert("No Orders"));
     }
     filter(dt) {
         let curr = new Date();
-        let first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
-        let last = first + 6; // last day is the first day + 6
-        // var firstday = new Date(curr.setDate(first)).toUTCString();
-        // var lastday = new Date(curr.setDate(last)).toUTCString();
         let thismonthOrders = [];
         for (let i = 0; i < dt.CompletedOrders.length; i++) {
-            if ((new Date(dt.CompletedOrders[i].OrderPlacementDate).getMonth() >= first && new Date(dt.CompletedOrders[i].OrderPlacementDate).getMonth() <= last) && new Date(dt.CompletedOrders[i].OrderPlacementDate).getFullYear() == curr.getFullYear()) {
-                // console.log(dt.CompletedOrders[i]);
+            if(new Date(dt.CompletedOrders[i].OrderPlacementDate).getMonth()==curr.getMonth()&&new Date(dt.CompletedOrders[i].OrderPlacementDate).getFullYear()==curr.getFullYear()){
+                console.log(dt.CompletedOrders[i]);
                 thismonthOrders.push(dt.CompletedOrders[i]);
             }
         }
@@ -87,7 +86,7 @@ export default class ThisWeekIncome extends Component {
         let d = new Date(datecon).getDate();
         let m = new Date(datecon).getMonth();
         let y = new Date(datecon).getFullYear();
-        return (d + "/" + (m + 1) + "/" + y);
+        return (d + "/" + (m+1) + "/" + y);
     }
     render() {
         return (

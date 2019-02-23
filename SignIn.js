@@ -70,7 +70,7 @@ export default class SignUp extends Component {
         for (let i = 0; i < this.state.datacmg.length; i++) {
             if (this.state.datacmg[i].email == this.state.email) {
                 if (this.state.datacmg[i].Password == this.state.password) {
-                    if (this.state.datacmg[i].ApprovedAccount == true) {
+                    // if (this.state.datacmg[i].ApprovedAccount == true) {
                         this.setState({
                             auth: true,
                             email: "",
@@ -80,18 +80,10 @@ export default class SignUp extends Component {
                         break;
                     }
                     else {
-                        ToastAndroid.show('Account not Authorized!', ToastAndroid.SHORT);
+                        ToastAndroid.show('Email Id or Password is Incorrect', ToastAndroid.SHORT);
                         break;
                     }
                 }
-                else {
-                    ToastAndroid.show('Password not match', ToastAndroid.SHORT);
-                    break;
-                }
-            }
-            else {
-                ToastAndroid.show('Email not match', ToastAndroid.SHORT);
-            }
         }
     }
     render() {

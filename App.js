@@ -13,6 +13,8 @@ import EditProduct from './EditProduct'
 import MainPage from './MainPage'
 import SideBar from './SideBar';
 import ThisWeekIncome from './ThisWeekIncome'
+import ThisMonthIncome from './ThisMonthIncome'
+import TotalAmount from './TotalAmount'
 class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -100,8 +102,20 @@ const AppNavigator = createStackNavigator({
       header: null,
     }
   },
-  ThisWeekIncome:{
+  ThisWeekIncome: {
     screen: ThisWeekIncome,
+    navigationOptions: {
+      header: null,
+    }
+  },
+  ThisMonthIncome: {
+    screen: ThisMonthIncome,
+    navigationOptions: {
+      header: null,
+    }
+  },
+  TotalAmount: {
+    screen: TotalAmount,
     navigationOptions: {
       header: null,
     }

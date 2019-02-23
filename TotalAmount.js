@@ -1,3 +1,4 @@
+// TotalAmount
 // ThisWeekIncome
 
 /**
@@ -27,7 +28,7 @@ const instructions = Platform.select({
         'Double tap R on your keyboard to reload,\n' +
         'Shake or press menu button for dev menu',
 });
-export default class ThisWeekIncome extends Component {
+export default class TotalAmount extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -36,11 +37,11 @@ export default class ThisWeekIncome extends Component {
             total: 0
         }
         this.Get = this.Get.bind(this);
-        this.filter = this.filter.bind(this);
         this.DateFormatted = this.DateFormatted.bind(this);
         this.Update = this.Update.bind(this);
     }
     UNSAFE_componentWillMount() {
+        // console.log(this.state.checking);
         this.Get();
     }
     Get() {
@@ -52,32 +53,17 @@ export default class ThisWeekIncome extends Component {
         }).then(function (response) {
             return response.json();
         }).then(data => {
-            this.filter(data);
+            this.setState({
+                filtered1: data
+            })
+            this.Update(data);
         }
         ).catch(error => alert("No Orders"));
     }
-    filter(dt) {
-        let curr = new Date();
-        let first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
-        let last = first + 6; // last day is the first day + 6
-        // var firstday = new Date(curr.setDate(first)).toUTCString();
-        // var lastday = new Date(curr.setDate(last)).toUTCString();
-        let thismonthOrders = [];
-        for (let i = 0; i < dt.CompletedOrders.length; i++) {
-            if ((new Date(dt.CompletedOrders[i].OrderPlacementDate).getMonth() >= first && new Date(dt.CompletedOrders[i].OrderPlacementDate).getMonth() <= last) && new Date(dt.CompletedOrders[i].OrderPlacementDate).getFullYear() == curr.getFullYear()) {
-                // console.log(dt.CompletedOrders[i]);
-                thismonthOrders.push(dt.CompletedOrders[i]);
-            }
-        }
-        this.setState({
-            filtered1: thismonthOrders
-        })
-        this.Update(thismonthOrders);
-    }
     Update(all) {
         let tot = 0;
-        for (let i = 0; i < all.length; i++) {
-            tot += all[i].Cost;
+        for (let i = 0; i < all.CompletedOrders.length; i++) {
+            tot += all.CompletedOrders[i].Cost;
         }
         this.setState({
             total: tot
@@ -87,14 +73,15 @@ export default class ThisWeekIncome extends Component {
         let d = new Date(datecon).getDate();
         let m = new Date(datecon).getMonth();
         let y = new Date(datecon).getFullYear();
-        return (d + "/" + (m + 1) + "/" + y);
+        return (d + "/" + (m+1) + "/" + y);
     }
     render() {
+        console.log(this.state.filtered1);
         return (
             <ScrollView>
                 <Container>
                     <Content>
-                        {this.state.filtered1.length && this.state.filtered1.map((data, i) => {
+                        {this.state.filtered1.CompletedOrders && this.state.filtered1.CompletedOrders.map((data, i) => {
                             return (
                                 <Card style={{ flex: 0 }}>
                                     <CardItem>
