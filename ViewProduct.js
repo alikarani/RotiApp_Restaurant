@@ -39,7 +39,7 @@ export default class ViewProduct extends Component {
         this.Get();
     }
     Get() {
-        fetch(`https://dry-coast-84806.herokuapp.com/api/menu/${this.state.checking}`, {
+        fetch(`https://rotiappserver.herokuapp.com/api/menu/${this.state.checking}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -54,7 +54,7 @@ export default class ViewProduct extends Component {
         ).catch(error => alert(error));
     }
     Delete(id) {
-        fetch(`https://dry-coast-84806.herokuapp.com/api/menu/${id}`, {
+        fetch(`https://rotiappserver.herokuapp.com/api/menu/${id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -66,9 +66,9 @@ export default class ViewProduct extends Component {
     }
     render() {
         return (
-            <ScrollView>
-                <Container>
-                    <Content>
+            <Container contentContainerStyle={{ flex: 1 }}>
+                <ScrollView>
+                    <Content contentContainerStyle={{ flex: 1 }}>
                         {this.state.filtered.map((data, i) => {
                             return (
                                 <Card style={{ flex: 0 }}>
@@ -120,8 +120,8 @@ export default class ViewProduct extends Component {
                             )
                         })}
                     </Content>
-                </Container>
             </ScrollView>
+                </Container>
         );
     }
 }

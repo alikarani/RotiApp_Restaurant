@@ -66,7 +66,20 @@ export default class updateprofile extends Component {
             return response.json();
         }).then(data => {
             this.setState({
-                datm: data
+                datm: data,
+                location: data.location,
+                restaurantname: data.restaurantname,
+                firstname: data.firstname,
+                lastname: data.lastname,
+                yourtitle: data.yourtitle,
+                phoneno: data.phoneno,
+                email: data.email,
+                Password: data.Password,
+                noOflocations: data.noOflocations,
+                typeOfCuisine: data.typeOfCuisine,
+                EstimatedWeeklyOrder: data.EstimatedWeeklyOrder,
+                CurrentlyOfferDelivery: data.CurrentlyOfferDelivery,
+                zipcode: data.zipcode,
             })
         }
         ).catch(error => alert(error));
@@ -92,7 +105,7 @@ export default class updateprofile extends Component {
                         "typeOfCuisine": `${this.state.typeOfCuisine}`,
                         "EstimatedWeeklyOrder": `${this.state.EstimatedWeeklyOrder}`
                     }
-                    fetch('https://rotiappp.herokuapp.com/api/restaurants', {
+                    fetch('https://rotiappserver.herokuapp.com/api/restaurants', {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -117,8 +130,9 @@ export default class updateprofile extends Component {
                             approved: false,
                             Password: ""
                         })
-                        alert("Wait for the Approval BY RotiApp");
-                        this.props.navigation.navigate('SignIn')
+                        alert("Changes Applied");
+                        this.Get();
+                        // this.props.navigation.navigate('SignIn')
                     }
                     ).catch(error => alert(error));
                 }

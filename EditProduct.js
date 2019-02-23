@@ -59,7 +59,7 @@ export default class AddProduct extends Component {
                             "image": `${this.state.image}`,
                             "cost": `${this.state.cost}`
                         }
-                        fetch(`https://rotiappp.herokuapp.com/api/menu/${this.state.id}`, {
+                        fetch(`https://rotiappserver.herokuapp.com/api/menu/${this.state.id}`, {
                             method: "PUT",
                             headers: {
                                 "Content-Type": "application/json",
