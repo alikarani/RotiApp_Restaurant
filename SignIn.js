@@ -18,6 +18,7 @@ import {
     TextInput,
     ToastAndroid
 } from 'react-native';
+import { AsyncStorage } from 'react-native';
 import { Button, CheckBox, ListItem, Toast } from "native-base";
 // import { Content, Container, Thumbnail, CardItem, Left, Body, Right, Footer, FooterTab, Button, Icon, Textarea, Toast } from "native-base"
 import { createStackNavigator, createAppContainer } from 'react-navigation';
@@ -33,26 +34,46 @@ export default class SignUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            resName: null,
             stm: true,
             email: "",
             password: "",
-            datacmg: "",
-            auth: false,
+            // datacmg: "",
+            // auth: false,
         }
         this.Get = this.Get.bind(this);
         this.Login = this.Login.bind(this);
     }
+    UNSAFE_componentWillReceiveProps(nextProps){
+        if(nextProps.auth!==this.props.auth){
+          //Perform some operation
+          this.setState({stm: auth });
+        //   this.classMethod();
+        }
+      }
     UNSAFE_componentWillMount() {
-        this.state.auth ? this.props.navigation.navigate('MainPage') : ""
-        this.Get();
+        AsyncStorage.getItem('name').then((value) => this.setState({
+            resName: value
+        }));
         setTimeout(() => {
             this.setState({
                 stm: false
             })
         }, 2500)
     }
-    Get() {
-        fetch('https://rotiappserver.herokuapp.com/api/restaurants', {
+    Get(dt) {
+        if (dt.user.length) {
+            AsyncStorage.setItem('name', dt.user[0].restaurantname);
+            this.props.navigation.navigate('MainPage', { resName: dt.user[0].restaurantname, auth: this.state.auth })
+            this.setState({
+                // auth: true,
+                email: "",
+                password: ""
+            })
+        }
+    }
+    Login() {
+        fetch(`https://rotiappserver.herokuapp.com/api/Reslogin/${this.state.email}/${this.state.password}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -60,31 +81,9 @@ export default class SignUp extends Component {
         }).then(function (response) {
             return response.json();
         }).then(data => {
-            this.setState({
-                datacmg: data
-            })
+            this.Get(data);
         }
-        ).catch(error => alert(error));
-    }
-    Login() {
-        for (let i = 0; i < this.state.datacmg.length; i++) {
-            if (this.state.datacmg[i].email == this.state.email) {
-                if (this.state.datacmg[i].Password == this.state.password) {
-                    // if (this.state.datacmg[i].ApprovedAccount == true) {
-                        this.setState({
-                            auth: true,
-                            email: "",
-                            password: ""
-                        })
-                        this.props.navigation.navigate('MainPage', { resName: this.state.datacmg[i].restaurantname, auth: this.state.auth })
-                        break;
-                    }
-                    else {
-                        ToastAndroid.show('Email Id or Password is Incorrect', ToastAndroid.SHORT);
-                        break;
-                    }
-                }
-        }
+        ).catch(error => ToastAndroid.show('Email Id or Password is Incorrect', ToastAndroid.SHORT));
     }
     render() {
         return (
@@ -95,11 +94,20 @@ export default class SignUp extends Component {
                             source={require("./logo.png")} resizeMode="contain" style={{ height: "100%", width: "100%" }} />
                     </View>
 
-                    <View>
-                        <Text style={{ marginTop: '3.5%', color: "black", fontSize: fontScale * 20 }}>Welcome Partner!</Text>
-                    </View>
+                    {this.state.resName?
+                        <View>
+                            <Text style={{ marginTop: '3.5%', color: "black", fontSize: fontScale * 20 }}>Welcome {this.state.resName}!</Text>
+                            {/* <Text style={{ marginTop: '3.5%', color: "black", fontSize: fontScale * 20 }}>Welcome Partner!</Text> */}
+                        </View>
+                        :
+                        <View>
+                            {/* <Text style={{ marginTop: '3.5%', color: "black", fontSize: fontScale * 20 }}>{this.state.resName}!</Text> */}
+                            <Text style={{ marginTop: '3.5%', color: "black", fontSize: fontScale * 20 }}>Welcome Partner!</Text>
+                        </View>
+                    }
                 </View>
             </View> :
+            !this.state.resName?
                 <View style={styles.container}>
                     <ScrollView keyboardDismissMode="interactive" keyboardShouldPersistTaps="handled">
                         <View style={{ height: width / 3, width, alignItems: "center", display: "flex", justifyContent: "flex-end" }}>
@@ -150,6 +158,8 @@ export default class SignUp extends Component {
                         </View>
                     </ScrollView>
                 </View>
+                :
+            this.props.navigation.navigate('MainPage', { resName: this.state.resName})
         );
     }
 }

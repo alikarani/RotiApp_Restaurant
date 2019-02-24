@@ -19,6 +19,7 @@ import {
     BackHandler,
     Alert
 } from 'react-native';
+import { AsyncStorage } from 'react-native';
 // import { Content, Container, Thumbnail, CardItem, Left, Body, Right, Footer, FooterTab, Button, Icon, Textarea, Toast, Header } from "native-base"
 import { Container, Header, Title, Button, Left, Right, Body, Icon } from 'native-base';
 const { height, width, fontScale } = Dimensions.get('window');
@@ -39,7 +40,7 @@ export default class MainPage extends Component {
         this.state = {
             datacmgIn: [],
             datacmgOrd: [],
-            auth: this.props.navigation.state.params.auth,
+            // auth: this.props.navigation.state.params.auth,
         }
         this.Logout = this.Logout.bind(this);
     }
@@ -94,10 +95,11 @@ export default class MainPage extends Component {
     //     BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
     // }
     Logout() {
-        this.setState({
-            auth: false
-        })
-        this.props.navigation.navigate('SignIn')
+        // this.setState({
+        //     auth: false
+        // })
+        this.props.navigation.navigate('SignIn', {auth: false})
+        AsyncStorage.removeItem('name');
     }
     render() {
         // console.log(this.props, " this props");

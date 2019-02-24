@@ -47,6 +47,7 @@ export default class updateprofile extends Component {
             CurrentlyOfferDelivery: false,
             zipcode: "",
             approved: false,
+            id:"",
             checking: this.props.navigation.state.params.ordered1,
             datm: {}
         }
@@ -80,6 +81,7 @@ export default class updateprofile extends Component {
                 EstimatedWeeklyOrder: data.EstimatedWeeklyOrder,
                 CurrentlyOfferDelivery: data.CurrentlyOfferDelivery,
                 zipcode: data.zipcode,
+                id:data._id
             })
         }
         ).catch(error => alert(error));
@@ -105,8 +107,8 @@ export default class updateprofile extends Component {
                         "typeOfCuisine": `${this.state.typeOfCuisine}`,
                         "EstimatedWeeklyOrder": `${this.state.EstimatedWeeklyOrder}`
                     }
-                    fetch('https://rotiappserver.herokuapp.com/api/restaurants', {
-                        method: "POST",
+                    fetch(`https://rotiappserver.herokuapp.com/api/restaurants/${this.state.id}`, {
+                        method: "PUT",
                         headers: {
                             "Content-Type": "application/json",
                         },

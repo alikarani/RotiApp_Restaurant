@@ -76,12 +76,12 @@ export default class TotalAmount extends Component {
         return (d + "/" + (m+1) + "/" + y);
     }
     render() {
-        console.log(this.state.filtered1);
         return (
+            this.state.filtered1.CompletedOrders?
             <ScrollView>
                 <Container>
                     <Content>
-                        {this.state.filtered1.CompletedOrders && this.state.filtered1.CompletedOrders.map((data, i) => {
+                        {this.state.filtered1.CompletedOrders.map((data, i) => {
                             return (
                                 <Card style={{ flex: 0 }}>
                                     <CardItem>
@@ -116,6 +116,10 @@ export default class TotalAmount extends Component {
                     </Content>
                 </Container>
             </ScrollView>
+            :
+            <View>
+            <Text>No Orders</Text>
+        </View>
         );
     }
 }

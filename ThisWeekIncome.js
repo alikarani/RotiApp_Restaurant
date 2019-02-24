@@ -53,7 +53,6 @@ export default class ThisWeekIncome extends Component {
             return response.json();
         }).then(data => {
             this.filter(data);
-            // console.log(data," data");
         }
         ).catch(error => alert("No Orders"));
     }
@@ -92,10 +91,11 @@ export default class ThisWeekIncome extends Component {
     }
     render() {
         return (
+            this.state.filtered1.length?
             <ScrollView>
                 <Container>
                     <Content>
-                        {this.state.filtered1.length && this.state.filtered1.map((data, i) => {
+                        {this.state.filtered1.map((data, i) => {
                             return (
                                 <Card style={{ flex: 0 }}>
                                     <CardItem>
@@ -130,6 +130,10 @@ export default class ThisWeekIncome extends Component {
                     </Content>
                 </Container>
             </ScrollView>
+            :
+            <View>
+                <Text>No Orders</Text>
+            </View>
         );
     }
 }
